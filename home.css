@@ -1,0 +1,152 @@
+/* Base Styles */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #121212;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+/* Container */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+header {
+  background: linear-gradient(to bottom, #1c1c1c, #121212);
+  padding: 4rem 1rem 3rem;
+  text-align: center;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 3.2rem;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+header p {
+  font-size: 1.3rem;
+  color: #bbbbbb;
+  margin-top: 0.5rem;
+}
+
+/* Logo */
+.logo-wrapper {
+  margin-bottom: 1rem;
+}
+.logo {
+  height: 70px;
+  width: auto;
+}
+
+/* Buttons */
+.nav-buttons {
+  margin-top: 2rem;
+}
+
+.nav-buttons a {
+  text-decoration: none;
+  color: #fff;
+  background-color: #0066ff;
+  padding: 0.8rem 1.8rem;
+  border-radius: 8px;
+  margin: 0 0.5rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.nav-buttons a:hover {
+  background-color: #004bcc;
+  box-shadow: 0 6px 16px rgba(0, 102, 255, 0.5);
+}
+
+.nav-buttons .highlight {
+  background-color: transparent;
+  border: 2px solid #0066ff;
+  color: #0066ff;
+}
+
+.nav-buttons .highlight:hover {
+  background-color: #0066ff;
+  color: #fff;
+}
+
+/* Sections */
+.section {
+  padding: 5rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.section h2 {
+  font-size: 2.2rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.section p {
+  font-size: 1.1rem;
+  color: #cccccc;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Alternate Section */
+.section.alt {
+  background-color: #181818;
+}
+
+/* Call to Action */
+.call-to-action {
+  background-color: #101010;
+  padding: 5rem 1rem;
+}
+
+/* Footer */
+footer {
+  background-color: #1a1a1a;
+  padding: 1.5rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #888;
+}
+header {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.95)),
+              url('your-image.jpg') center/cover no-repeat;
+  
+}
+/* New Section Styling */
+ul.custom-list {
+  list-style: none;
+  padding: 0;
+  max-width: 700px;
+  margin: 2rem auto;
+  line-height: 2;
+}
+
+ul.custom-list li::before {
+  content: "✅";
+  margin-right: 0.75rem;
+  color: #00cc66;
+}
+
+/* Card style */
+.feature-card {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 280px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 0 transparent;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
