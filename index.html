@@ -2,44 +2,191 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Skill-L!NK - Build Together. Win Together.</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    /* Base Styles */
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    header {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.95)),
+                  url('logo1.png') center/cover no-repeat;
+      padding: 4rem 1rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid #2e2e2e;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 3.2rem;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      font-size: 1.3rem;
+      color: #bbbbbb;
+      margin-top: 0.5rem;
+    }
+
+    .logo-wrapper {
+      margin-bottom: 1rem;
+    }
+    .logo {
+      height: 70px;
+      width: auto;
+    }
+
+    .nav-buttons {
+      margin-top: 2rem;
+    }
+    .nav-buttons a {
+  text-decoration: none;
+  color: #fff;
+  background-color: #0066ff;
+  padding: 0.8rem 1.8rem;
+  border-radius: 8px;
+  margin: 0 0.5rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+    .nav-buttons a:hover {
+  background-color: #004bcc;
+  box-shadow: 0 6px 16px rgba(0, 102, 255, 0.5);
+}
+    .nav-buttons .highlight {
+  background-color: transparent;
+  border: 2px solid #0066ff;
+  color: #0066ff;
+}
+.nav-buttons .highlight:hover {
+  background-color: #0066ff;
+  color: #fff;
+}
+
+    .section {
+      padding: 5rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #2e2e2e;
+      animation: fadeIn 1s ease;
+    }
+    .section h2 {
+      font-size: 2.2rem;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+    .section p {
+      font-size: 1.1rem;
+      color: #cccccc;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .section.alt {
+      background-color: #181818;
+    }
+    .call-to-action {
+      background-color: #101010;
+    }
+
+    footer {
+      background-color: #1a1a1a;
+      padding: 1.5rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    ul.custom-list {
+      list-style: none;
+      padding: 0;
+      max-width: 700px;
+      margin: 2rem auto;
+      line-height: 2;
+    }
+    ul.custom-list li::before {
+      content: "✅";
+      margin-right: 0.75rem;
+      color: #00cc66;
+    }
+
+    .feature-card {
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 2rem;
+      width: 280px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 0 transparent;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+
+    @media (max-width: 768px) {
+      header h1 { font-size: 2rem; }
+      .nav-buttons { flex-direction: column; align-items: center; gap: 1rem; }
+      .nav-buttons a { width: 80%; text-align: center; }
+      .feature-card { width: 100%; margin-bottom: 1.5rem; }
+      .section h2 { font-size: 1.5rem; }
+      .section p { font-size: 1rem; }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
   <header>
     <div class="container">
       <div class="logo-wrapper">
-        <img src="logo.png" alt="Skill-L!NK Logo" class="logo">
+        
       </div>
-      <h1>Skill-L!NK</h1>
+      <h1><strong>Skill-L!NK🔗</strong></h1>
       <p>Build Together. Win Together.</p>
       <div class="nav-buttons">
-        <a href="#login">Login</a>
-        <a href="#register">Register</a>
-      </div>
+        <h4>Already have an account?</h4>
+        <a href="#login" class="highlight">Login</a>
+        <h4>Create an account</h4>
+        <a href="#register" class="highlight">Register</a>
+    </div>
+
     </div>
   </header>
 
   <section class="section" id="about">
     <div class="container">
       <h2>What is Skill-L!NK?</h2>
-      <p>
-        Skill-L!NK is a platform for creators, professionals, and collaborators of all kinds. Post ideas, form teams, gain recognition, and build your portfolio through real-world projects — whether you're a coder, artist, musician, chef, or teacher.
-      </p>
+      <p>Skill-L!NK is a platform for creators, professionals, and collaborators of all kinds. Post ideas, form teams, gain recognition, and build your portfolio through real-world projects.</p>
     </div>
   </section>
 
   <section class="section alt">
     <div class="container">
       <h2>Why Use Skill-L!NK?</h2>
-      <p>
-        ✅ Match with skilled collaborators<br>
-        ✅ Earn badges and build your profile<br>
-        ✅ Get noticed by organizations and recruiters<br>
-        ✅ Grow your skills through meaningful teamwork
-      </p>
+      <ul class="custom-list">
+        <li>Match with skilled collaborators</li>
+        <li>Earn badges and build your profile</li>
+        <li>Get noticed by organizations and recruiters</li>
+        <li>Grow your skills through teamwork</li>
+      </ul>
     </div>
   </section>
 
@@ -52,81 +199,94 @@
       </div>
     </div>
   </section>
-  <!-- Problems We Solve -->
-<section class="section alt">
-  <div class="container">
-    <h2>🛠️ Problems We Solve</h2>
-    <p>Too many talented people go unseen, unlinked, or unsupported. Skill-L!NK helps by:</p>
-    <ul class="custom-list">
-      <li>Connecting solo creators to passionate teammates</li>
-      <li>Reducing skill-waste through team collaboration</li>
-      <li>Providing a digital space to showcase your work</li>
-      <li>Helping professionals grow beyond 9-to-5 jobs</li>
-    </ul>
-  </div>
-</section>
 
-<!-- Our Mission -->
-<section class="section">
-  <div class="container">
-    <h2>🎯 Our Mission</h2>
-    <p>To unlock the world’s creative potential by building a place where anyone — from anywhere — can share, connect, and build something meaningful with others.</p>
-  </div>
-</section>
+  <section class="section alt">
+    <div class="container">
+      <h2>🛠️ Problems We Solve</h2>
+      <p>Too many talented people go unseen, unlinked, or unsupported. Skill-L!NK helps by:</p>
+      <ul class="custom-list">
+        <li>Connecting solo creators to passionate teammates</li>
+        <li>Reducing skill-waste through team collaboration</li>
+        <li>Providing a digital space to showcase your work</li>
+        <li>Helping professionals grow beyond 9-to-5 jobs</li>
+      </ul>
+    </div>
+  </section>
 
-<!-- What Can You Do -->
-<section class="section alt">
-  <div class="container">
-    <h2>🚀 What Can You Do?</h2>
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2rem;">
-      <div class="feature-card">
-        <h3>📁 Build a Portfolio</h3>
-        <p>Show your projects, designs, or code to attract attention and collaboration.</p>
-      </div>
-      <div class="feature-card">
-        <h3>👥 Match with Talent</h3>
-        <p>Find developers, artists, writers, or chefs who share your vision.</p>
-      </div>
-      <div class="feature-card">
-        <h3>🏅 Earn Recognition</h3>
-        <p>Gain badges, endorsements, and visibility as you grow your network.</p>
+  <section class="section">
+    <div class="container">
+      <h2>🎯 Our Mission</h2>
+      <p>To unlock the world’s creative potential by building a place where anyone — from anywhere — can share, connect, and build something meaningful.</p>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <h2>🚀 What Can You Do?</h2>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2rem;">
+        <div class="feature-card">
+          <h3>📁 Build a Portfolio</h3>
+          <p>Show your projects, designs, or code to attract attention and collaboration.</p>
+        </div>
+        <div class="feature-card">
+          <h3>👥 Match with Talent</h3>
+          <p>Find developers, artists, writers, or chefs who share your vision.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🏅 Earn Recognition</h3>
+          <p>Gain badges, endorsements, and visibility as you grow your network.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Community Impact -->
-<section class="section">
-  <div class="container">
-    <h2>🌟 Community Impact</h2>
-    <p>We’ve already helped hundreds of creators connect, launch startups, and get hired. Your skills are powerful — let the world see them.</p>
-  </div>
-</section>
-
-<!-- Vision & Values -->
-<section class="section alt">
-  <div class="container">
-    <h2>🔮 Vision & Values</h2>
-    <ul class="custom-list">
-      <li>Creativity deserves a platform</li>
-      <li>Collaboration beats competition</li>
-      <li>Everyone has something to contribute</li>
-      <li>Diversity fuels innovation</li>
-    </ul>
-  </div>
-</section>
-
-<!-- Call to Join -->
-<section class="section call-to-action">
-  <div class="container">
-    <h2>✨ Join the Movement</h2>
-    <p>Be part of a growing network where ideas turn into actions. Let’s build the future together.</p>
-    <div class="nav-buttons">
-      <a href="#register" class="highlight">Get Started</a>
+  <section class="section">
+    <div class="container">
+      <h2>🌍 Built For Everyone</h2>
+      <p>Whether you're a beginner or expert — Skill-L!NK is where you find support, grow your reputation, and join people who believe in teamwork.</p>
     </div>
-  </div>
-</section>
+  </section>
 
+  <section class="section alt">
+    <div class="container">
+      <h2>🧩 Key Features</h2>
+      <ul class="custom-list">
+        <li>Profile system to showcase your skills</li>
+        <li>Badges and endorsements to show credibility</li>
+        <li>Team boards for group collaboration</li>
+        <li>Feedback tools to get better together</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>🎯 Our Goals</h2>
+      <p>We want to turn passive skills into active results. No more gatekeeping. Just passionate people doing what they love — together.</p>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <h2>🔮 Vision & Values</h2>
+      <ul class="custom-list">
+        <li>Creativity deserves a platform</li>
+        <li>Collaboration beats competition</li>
+        <li>Everyone has something to contribute</li>
+        <li>Diversity fuels innovation</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section call-to-action">
+    <div class="container">
+      <h2>✨ Join the Movement</h2>
+      <p>Be part of a growing network where ideas turn into actions. Let’s build the future together.</p>
+      <div class="nav-buttons">
+        <a href="#register" class="highlight">Get Started</a>
+      </div>
+    </div>
+  </section>
 
   <footer>
     <div class="container">
