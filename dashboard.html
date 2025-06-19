@@ -6,11 +6,19 @@
   <title>Dashboard - Skill-L!NK</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --primary: #4facfe;
+      --primary-dark: #0066ff;
+      --light-bg: #f8faff;
+      --text-dark: #1f1f1f;
+      --text-light: #ffffff;
+    }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom right, #f0f4ff, #dfe9f3);
-      color: #1c1c1c;
+      background: var(--light-bg);
+      color: var(--text-dark);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -19,19 +27,19 @@
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
       width: 100%;
-      max-width: 800px;
       text-align: center;
-      transition: all 0.3s ease;
     }
 
     h1 {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       margin-bottom: 0.5rem;
+      color: var(--primary-dark);
     }
 
     #userEmail {
@@ -41,46 +49,39 @@
     }
 
     .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 1rem;
       margin-bottom: 2rem;
     }
 
     .buttons a, #logoutBtn {
       text-decoration: none;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      color: white;
-      padding: 0.9rem 1.8rem;
-      border-radius: 12px;
+      background: var(--primary);
+      color: var(--text-light);
+      padding: 0.9rem 1.2rem;
+      border-radius: 10px;
       font-weight: 600;
-      border: none;
       font-size: 1rem;
-      transition: 0.3s ease;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: none;
+      display: block;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
     }
 
     .buttons a:hover, #logoutBtn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
     }
 
-    @media (max-width: 600px) {
-      .buttons {
-        flex-direction: column;
-      }
-
-      .buttons a, #logoutBtn {
-        width: 100%;
-      }
+    #logoutBtn {
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🌟 Welcome to Skill-L!NK</h1>
+    <h1>🌟 Skill-L!NK Dashboard</h1>
     <p id="userEmail">Loading...</p>
 
     <div class="buttons">
@@ -94,60 +95,41 @@
     <button id="logoutBtn">🚪 Logout</button>
   </div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import {
-    getAuth,
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
-    authDomain: "skill-link-6d699.firebaseapp.com",
-    projectId: "skill-link-6d699",
-    storageBucket: "skill-link-6d699.appspot.com",
-    messagingSenderId: "705249950767",
-    appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
+      authDomain: "skill-link-6d699.firebaseapp.com",
+      projectId: "skill-link-6d699",
+      storageBucket: "skill-link-6d699.appspot.com",
+      messagingSenderId: "705249950767",
+      appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  const logoutBtn = document.getElementById("logoutBtn");
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
 
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      signOut(auth)
-        .then(() => {
-          // ✅ Redirect with query so we know it's a logout
-          window.location.href = "login.html?loggedOut=true";
-        })
-        .catch((error) => {
-          alert("❌ Logout error: " + error.message);
-          console.error(error);
+        // Setup logout only when user is confirmed
+        const logoutBtn = document.getElementById("logoutBtn");
+        logoutBtn.addEventListener("click", () => {
+          // Redirect to login with logout flag
+          window.location.href = "login.html?logoutNow=true";
         });
-    });
-  }
-
-  onAuthStateChanged(auth, (user) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const justLoggedOut = urlParams.get("loggedOut");
-
-    if (user) {
-      document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
-    } else {
-      // ✅ Only show alert if not just logged out
-      if (!justLoggedOut) {
+      } else {
         alert("🚫 You must be logged in to view this page.");
+        window.location.href = "login.html";
       }
-      window.location.href = "login.html";
-    }
-  });
-</script>
-
-</script>
-
-</script>
-
-</script>
+    });
+  </script>
+</body>
+</html>
