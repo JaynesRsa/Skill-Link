@@ -18,15 +18,18 @@
       height: 100vh;
       text-align: center;
     }
+
     h1 {
       margin-bottom: 1rem;
     }
+
     #userEmail {
       margin-bottom: 2rem;
       font-weight: 600;
       font-size: 1.2rem;
       color: #3399ff;
     }
+
     button {
       padding: 0.8rem 2rem;
       font-size: 1rem;
@@ -37,6 +40,7 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
+
     button:hover {
       background-color: #0066ff;
       color: white;
@@ -45,41 +49,41 @@
 </head>
 <body>
   <h1>Welcome to Skill-L!NK Dashboard</h1>
-  <p>you successfully logged in!</p>
+  <p>You successfully logged in!</p>
   <div id="userEmail">Loading user info...</div>
-  <a href="index.html"><button id="logoutBtn">Logout</button></a>
+  <button id="logoutBtn">Logout</button>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  <script>
-    // Initialize Firebase app (same config as login)
-    const app = firebase.initializeApp({
+    const firebaseConfig = {
       apiKey: "AIzaSyACWXPcF8ctXs51iBpAaAaoJSR4hV42kY",
       authDomain: "skill-link-6d699.firebaseapp.com",
       projectId: "skill-link-6d699",
       storageBucket: "skill-link-6d699.appspot.com",
       messagingSenderId: "705249950767",
       appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
-    });
+    };
 
-    const auth = firebase.getAuth(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    // Show user email if logged in
-    firebase.onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
-        document.getElementById('userEmail').textContent = "Logged in as: " + user.email;
+        document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
       } else {
-        // If no user, redirect to login page
         window.location.href = "login.html";
       }
     });
 
-    // Logout button action
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      firebase.signOut(auth).then(() => {
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      signOut(auth).then(() => {
+        alert("✅ Logged out!");
         window.location.href = "login.html";
+      }).catch((error) => {
+        alert("❌ Logout error: " + error.message);
       });
     });
   </script>
