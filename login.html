@@ -40,7 +40,7 @@
       padding: 0.8rem;
       border: none;
       border-radius: 6px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
       font-size: 1rem;
     }
 
@@ -72,6 +72,10 @@
       color: #3399ff;
       text-decoration: none;
     }
+
+    .login-box a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -82,73 +86,91 @@
       <input type="password" id="password" placeholder="Password" required />
       <button type="submit">Login</button>
     </form>
+
+    <!-- ✅ Forgot Password Link -->
+    <p><a href="#" id="forgotPasswordLink">Forgot password?</a></p>
+
+    <!-- ✅ Register Link -->
     <p>Don't have an account? <a href="registration.html">Register here</a></p>
   </div>
 
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import {
-    getAuth,
-    signInWithEmailAndPassword,
-    setPersistence,
-    browserSessionPersistence,
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      setPersistence,
+      browserSessionPersistence,
+      signOut,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // ✅ Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
-    authDomain: "skill-link-6d699.firebaseapp.com",
-    projectId: "skill-link-6d699",
-    storageBucket: "skill-link-6d699.appspot.com",
-    messagingSenderId: "705249950767",
-    appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
-  };
+    // ✅ Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
+      authDomain: "skill-link-6d699.firebaseapp.com",
+      projectId: "skill-link-6d699",
+      storageBucket: "skill-link-6d699.appspot.com",
+      messagingSenderId: "705249950767",
+      appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  // ✅ 1. Check for logout request
-  const urlParams = new URLSearchParams(window.location.search);
-  const logoutNow = urlParams.get("logoutNow");
+    // ✅ Handle redirect logout from dashboard
+    const urlParams = new URLSearchParams(window.location.search);
+    const logoutNow = urlParams.get("logoutNow");
 
-  if (logoutNow === "true") {
-    signOut(auth).then(() => {
-      alert("✅ Logged out successfully.");
-      // Clean the URL
-      window.location.href = "login.html";
-    });
-  }
-
-  // ✅ 2. Handle login form
-  const loginForm = document.getElementById("loginForm");
-
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const loginBtn = loginForm.querySelector("button");
-
-    loginBtn.disabled = true;
-    loginBtn.textContent = "Logging in...";
-
-    setPersistence(auth, browserSessionPersistence)
-      .then(() => signInWithEmailAndPassword(auth, email, password))
-      .then((userCredential) => {
-        alert("✅ Logged in as " + userCredential.user.email);
-        window.location.href = "dashboard.html";
-      })
-      .catch((error) => {
-        alert("❌ Login failed: " + error.message);
-        console.error(error);
-      })
-      .finally(() => {
-        loginBtn.disabled = false;
-        loginBtn.textContent = "Login";
+    if (logoutNow === "true") {
+      signOut(auth).then(() => {
+        alert("✅ Logged out successfully.");
+        window.location.href = "login.html"; // Clean the URL
       });
-  });
-</script>
+    }
 
+    // ✅ Login Form Submission
+    const loginForm = document.getElementById("loginForm");
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const loginBtn = loginForm.querySelector("button");
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Logging in...";
+
+      setPersistence(auth, browserSessionPersistence)
+        .then(() => signInWithEmailAndPassword(auth, email, password))
+        .then((userCredential) => {
+          alert("✅ Logged in as: " + userCredential.user.email);
+          window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          alert("❌ Login failed: " + error.message);
+        })
+        .finally(() => {
+          loginBtn.disabled = false;
+          loginBtn.textContent = "Login";
+        });
+    });
+
+    // ✅ Forgot Password Reset Link
+    document.getElementById("forgotPasswordLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      const email = prompt("📧 Enter your email to reset your password:");
+
+      if (email) {
+        sendPasswordResetEmail(auth, email)
+          .then(() => {
+            alert("📨 Password reset email sent! Check your inbox.");
+          })
+          .catch((error) => {
+            alert("❌ Failed to send reset email: " + error.message);
+          });
+      }
+    });
+  </script>
 </body>
 </html>
