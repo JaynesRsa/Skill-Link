@@ -70,13 +70,17 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
-      } else {
-        window.location.href = "login.html";
-      }
-    });
+   onAuthStateChanged(auth, (user) => {
+  console.log("Auth state changed:", user);
+  if (user) {
+    document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
+  } else {
+    alert("You are not logged in. Redirecting...");
+    window.location.href = "login.html";
+  }
+});
+
+
 
     document.getElementById("logoutBtn").addEventListener("click", () => {
       signOut(auth).then(() => {
