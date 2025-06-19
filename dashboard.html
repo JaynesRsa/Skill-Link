@@ -11,49 +11,79 @@
       font-family: 'Inter', sans-serif;
       background-color: #121212;
       color: #e0e0e0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .welcome-card {
+      background: #1e1e1e;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
       text-align: center;
-    }
-
-    h1 {
-      margin-bottom: 1rem;
-    }
-
-    #userEmail {
       margin-bottom: 2rem;
-      font-weight: 600;
-      font-size: 1.2rem;
-      color: #3399ff;
     }
 
-    button {
-      padding: 0.8rem 2rem;
+    .welcome-card h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-card p {
+      color: #3399ff;
+      font-size: 1rem;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .buttons a, button {
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
       font-size: 1rem;
       border-radius: 6px;
       border: 2px solid #0066ff;
       background-color: transparent;
       color: #0066ff;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
 
-    button:hover {
+    .buttons a:hover, button:hover {
       background-color: #0066ff;
       color: white;
+    }
+
+    #logoutBtn {
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to Skill-L!NK Dashboard</h1>
-  <p>You successfully logged in!</p>
-  <div id="userEmail">Loading user info...</div>
-  <button id="logoutBtn">Logout</button>
+  <div class="container">
+    <div class="welcome-card">
+      <h1>Welcome to Skill-L!NK</h1>
+      <p id="userEmail">Loading...</p>
+    </div>
 
-  <!-- Firebase SDKs -->
+    <div class="buttons">
+      <a href="profile.html">👤 My Profile</a>
+      <a href="projects.html">📂 Browse Projects</a>
+      <a href="create-project.html">➕ Post a Project</a>
+      <a href="leaderboard.html">🏆 Leaderboard</a>
+      <a href="showcase.html">💡 Showcase Wall</a>
+    </div>
+
+    <button id="logoutBtn">Logout</button>
+  </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -70,24 +100,19 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-   onAuthStateChanged(auth, (user) => {
-  console.log("Auth state changed:", user);
-  if (user) {
-    document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
-  } else {
-    alert("You are not logged in. Redirecting...");
-    window.location.href = "login.html";
-  }
-});
-
-
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
+      } else {
+        alert("You are not logged in.");
+        window.location.href = "login.html";
+      }
+    });
 
     document.getElementById("logoutBtn").addEventListener("click", () => {
       signOut(auth).then(() => {
-        alert("✅ Logged out!");
+        alert("✅ Logged out.");
         window.location.href = "login.html";
-      }).catch((error) => {
-        alert("❌ Logout error: " + error.message);
       });
     });
   </script>
