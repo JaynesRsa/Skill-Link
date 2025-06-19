@@ -88,6 +88,10 @@
   <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import {
+  getAuth ,signInWithEmailAndPassword,browserSessionPersistence,setPersistence
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
 
   const firebaseConfig = {
     apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
@@ -113,19 +117,24 @@
     loginBtn.disabled = true;
     loginBtn.textContent = "Logging in...";
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        alert("✅ Logged in as " + userCredential.user.email);
-        window.location.href = "dashboard.html"; // ✅ Proper redirect after login
-      })
-      .catch((error) => {
-        alert("❌ Login failed: " + error.message);
-      })
-      .finally(() => {
-        loginBtn.disabled = false;
-        loginBtn.textContent = "Login";
-      });
+    import { browserSessionPersistence, setPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+setPersistence(auth, browserSessionPersistence)
+  .then(() => {
+    return signInWithEmailAndPassword(auth, email, password);
+  })
+  .then((userCredential) => {
+    alert("✅ Logged in as " + userCredential.user.email);
+    window.location.href = "dashboard.html";
+  })
+  .catch((error) => {
+    alert("❌ Login failed: " + error.message);
+  })
+  .finally(() => {
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Login";
   });
+
 </script>
 </body>
 </html>
