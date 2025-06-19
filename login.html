@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - Skill-L!NK</title>
-  <link rel="stylesheet" href="home.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -21,13 +21,13 @@
     }
 
     .login-box {
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.85);
       padding: 2rem;
       border-radius: 12px;
-      width: 100%;
       max-width: 400px;
+      width: 100%;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(5px);
     }
 
     .login-box h2 {
@@ -37,7 +37,7 @@
 
     .login-box input {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.8rem;
       border: none;
       border-radius: 6px;
       margin-bottom: 1.5rem;
@@ -46,7 +46,7 @@
 
     .login-box button {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.9rem;
       background-color: transparent;
       border: 2px solid #0066ff;
       color: #0066ff;
@@ -85,42 +85,43 @@
     <p>Don't have an account? <a href="register.html">Register here</a></p>
   </div>
 
-  <!-- Firebase Core SDK -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 
-  <!-- Firebase Login Script -->
+  <!-- Firebase Login Logic -->
   <script>
-    // Your Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyACWXPcF8ctXs51iBpAaAaoJSR4hV42kY",
-      authDomain: "skill-link-6d699.firebaseapp.com",
-      projectId: "skill-link-6d699",
-      storageBucket: "skill-link-6d699.appspot.com",
-      messagingSenderId: "705249950767",
-      appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
-    };
+    document.addEventListener("DOMContentLoaded", () => {
+      const firebaseConfig = {
+        apiKey: "AIzaSyACWXPcF8ctXs51iBpAaAaoJSR4hV42kY",
+        authDomain: "skill-link-6d699.firebaseapp.com",
+        projectId: "skill-link-6d699",
+        storageBucket: "skill-link-6d699.appspot.com",
+        messagingSenderId: "705249950767",
+        appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
+      };
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
 
-    // Handle login form submission
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
-      e.preventDefault();
+      // Listen to login form submission
+      document.getElementById("loginForm").addEventListener("submit", function (e) {
+        e.preventDefault();
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
 
-      auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          alert("✅ Logged in as " + userCredential.user.email);
-          // Optional: redirect to dashboard
-          // window.location.href = "dashboard.html";
-        })
-        .catch((error) => {
-          alert("❌ Login failed: " + error.message);
-        });
+        auth.signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            alert("✅ Logged in as " + userCredential.user.email);
+            // You can redirect here if you want
+            // window.location.href = "dashboard.html";
+          })
+          .catch((error) => {
+            alert("❌ Login failed: " + error.message);
+          });
+      });
     });
   </script>
 </body>
