@@ -95,8 +95,42 @@
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyC2mlKy
+  const firebaseConfig = {
+    apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
+    authDomain: "skill-link-6d699.firebaseapp.com",
+    projectId: "skill-link-6d699",
+    storageBucket: "skill-link-6d699.appspot.com",
+    messagingSenderId: "705249950767",
+    appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
+    } else {
+      alert("🚫 You must be logged in to view this page.");
+      window.location.href = "login.html";
+    }
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    signOut(auth)
+      .then(() => {
+        alert("✅ Logged out!");
+        window.location.href = "login.html";
+      })
+      .catch((error) => {
+        alert("❌ Logout error: " + error.message);
+      });
+  });
+</script>
