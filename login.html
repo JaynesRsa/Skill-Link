@@ -117,13 +117,13 @@
       firebase.signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           alert("✅ Logged in as " + userCredential.user.email);
+          window.location.href = "dashboard.html";  // Redirect here after successful login
           document.getElementById("loginForm").reset();
         })
         .catch((error) => {
           alert("❌ Login failed: " + error.message);
         })
         .finally(() => {
-          // Reset button to normal
           loginBtn.disabled = false;
           loginBtn.textContent = "Login";
         });
