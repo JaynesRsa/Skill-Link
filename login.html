@@ -86,6 +86,25 @@
   </div>
 
   <script type="module">
+    import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const auth = getAuth();
+
+// ✅ Check if we need to logout
+const urlParams = new URLSearchParams(window.location.search);
+const logoutNow = urlParams.get("logoutNow");
+
+if (logoutNow === "true") {
+  signOut(auth).then(() => {
+    alert("✅ Logged out successfully.");
+    window.location.href = "login.html"; // clean up the URL
+  });
+}
+
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import {
       getAuth,
