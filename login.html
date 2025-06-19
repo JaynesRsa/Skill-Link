@@ -118,6 +118,22 @@
       loginBtn.textContent = "Logging in...";
 
       setPersistence(auth, browserSessionPersistence)
-        .then(() => signInWithEmailAndPassword(auth, email, password))
+        .then(() => {
+          return signInWithEmailAndPassword(auth, email, password);
+        })
         .then((userCredential) => {
           alert("✅ Logged in as " + userCredential.user.email);
+          window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          alert("❌ Login failed: " + error.message);
+          console.error(error);
+        })
+        .finally(() => {
+          loginBtn.disabled = false;
+          loginBtn.textContent = "Login";
+        });
+    });
+  </script>
+</body>
+</html>
