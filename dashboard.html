@@ -114,23 +114,30 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
+  // Check auth state and setup logout button after DOM is ready
   onAuthStateChanged(auth, (user) => {
     if (user) {
       document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
+
+      // ✅ Now safely attach logout button
+      const logoutBtn = document.getElementById("logoutBtn");
+      logoutBtn.addEventListener("click", () => {
+        signOut(auth)
+          .then(() => {
+            alert("✅ Logged out!");
+            window.location.href = "login.html";
+          })
+          .catch((error) => {
+            alert("❌ Logout error: " + error.message);
+            console.error(error);
+          });
+      });
+
     } else {
       alert("🚫 You must be logged in to view this page.");
       window.location.href = "login.html";
     }
   });
+</script>
 
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    signOut(auth)
-      .then(() => {
-        alert("✅ Logged out!");
-        window.location.href = "login.html";
-      })
-      .catch((error) => {
-        alert("❌ Logout error: " + error.message);
-      });
-  });
 </script>
