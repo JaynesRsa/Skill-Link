@@ -94,7 +94,7 @@
     <button id="logoutBtn">🚪 Logout</button>
   </div>
 
-  <script type="module">
+<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import {
     getAuth,
@@ -114,32 +114,38 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // 🛑 Create a flag to know if logout was manual
-  let isLoggingOut = false;
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      signOut(auth)
+        .then(() => {
+          // ✅ Redirect with query so we know it's a logout
+          window.location.href = "login.html?loggedOut=true";
+        })
+        .catch((error) => {
+          alert("❌ Logout error: " + error.message);
+          console.error(error);
+        });
+    });
+  }
 
   onAuthStateChanged(auth, (user) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const justLoggedOut = urlParams.get("loggedOut");
+
     if (user) {
       document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
-
-      document.getElementById("logoutBtn").addEventListener("click", () => {
-        isLoggingOut = true; // 🔐 Set flag before sign out
-        signOut(auth)
-          .then(() => {
-            alert("✅ Logged out!");
-            window.location.href = "login.html";
-          })
-          .catch((error) => {
-            alert("❌ Logout error: " + error.message);
-          });
-      });
-
     } else {
-      if (!isLoggingOut) {
+      // ✅ Only show alert if not just logged out
+      if (!justLoggedOut) {
         alert("🚫 You must be logged in to view this page.");
       }
       window.location.href = "login.html";
     }
   });
+</script>
+
 </script>
 
 </script>
