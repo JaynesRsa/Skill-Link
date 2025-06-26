@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile - Skill-L!NK</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      color: #1c1c1c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .profile-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .profile-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      border: 3px solid #4facfe;
+    }
+
+    .profile-card h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .profile-card p {
+      margin: 0.3rem 0;
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    .profile-card button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .profile-card button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- ✅ React + Firebase (CDN mode) -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
+      authDomain: "skill-link-6d699.firebaseapp.com",
+      projectId: "skill-link-6d699",
+      storageBucket: "skill-link-6d699.appspot.com",
+      messagingSenderId: "705249950767",
+      appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const { useState, useEffect } = React;
+
+    function Profile() {
+      const [user, setUser] = useState(null);
+
+      useEffect(() => {
+        onAuthStateChanged(auth, (u) => {
+          if (u) {
+            setUser(u);
+          } else {
+            alert("🚫 You must be logged in.");
+            window.location.href = "login.html";
+          }
+        });
+      }, []);
+
+      if (!user) return React.createElement('p', null, 'Loading...');
+
+      return React.createElement('div', { className: 'profile-card' },
+        React.createElement('img', {
+          src: user.photoURL || 'https://ui-avatars.com/api/?name=User&background=4facfe&color=fff',
+          alt: 'Profile Picture'
+        }),
+        React.createElement('h2', null, user.displayName || "User"),
+        React.createElement('p', null, `Email: ${user.email}`),
+        React.createElement('p', null, `UID: ${user.uid}`),
+        React.createElement('button', {
+          onClick: () => {
+            signOut(auth).then(() => {
+              alert("✅ Logged out.");
+              window.location.href = "login.html";
+            });
+          }
+        }, 'Logout')
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      React.createElement(Profile)
+    );
+  </script>
+</body>
+</html>
