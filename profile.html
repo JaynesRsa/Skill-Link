@@ -3,20 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Profile | Skill-L!NK</title>
+  <title>Skill-L!NK – Profile</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg-light: #f3f4f6;
-      --text-light: #1e1e1e;
-      --card-light: #ffffff;
-
       --bg-dark: #121212;
-      --text-dark: #e0e0e0;
-      --card-dark: #1f1f1f;
-
-      --primary: #4facfe;
-      --secondary: #00f2fe;
+      --text-light: #1e1e1e;
+      --text-dark: #f1f1f1;
+      --panel-light: #ffffff;
+      --panel-dark: #1e1e1e;
+      --accent: #4facfe;
     }
 
     body {
@@ -25,9 +22,7 @@
       background-color: var(--bg-light);
       color: var(--text-light);
       display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      height: 100vh;
       transition: background 0.3s, color 0.3s;
     }
 
@@ -36,125 +31,144 @@
       color: var(--text-dark);
     }
 
-    .card {
-      background-color: var(--card-light);
+    .sidebar {
+      width: 300px;
+      background-color: var(--panel-light);
       padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 600px;
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       transition: background 0.3s;
     }
 
-    body.dark .card {
-      background-color: var(--card-dark);
+    body.dark .sidebar {
+      background-color: var(--panel-dark);
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .profile-pic {
-      width: 90px;
-      height: 90px;
+    .sidebar img {
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid var(--primary);
+      margin-bottom: 1rem;
+      border: 3px solid var(--accent);
     }
 
-    .info h2 {
-      margin: 0.5rem 0 0.3rem;
-      font-size: 1.5rem;
+    .sidebar h2 {
+      font-size: 1.4rem;
+      margin: 0.5rem 0 0.2rem;
+      text-align: center;
     }
 
-    .info p {
-      margin: 0;
+    .sidebar p {
       font-size: 0.95rem;
-      opacity: 0.8;
+      text-align: center;
+      color: inherit;
     }
 
-    .grid {
-      margin-top: 1.5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .grid div {
-      background: rgba(0, 0, 0, 0.03);
-      padding: 0.8rem;
+    .sidebar button {
+      margin-top: 2rem;
+      padding: 0.6rem 1.4rem;
+      border: none;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      font-weight: 600;
       border-radius: 8px;
-      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+      width: 100%;
+    }
+
+    .sidebar button:hover {
+      transform: translateY(-2px);
+    }
+
+    .main {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .main h1 {
+      margin-top: 0;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .tab {
+      padding: 1rem;
+      background-color: rgba(0, 0, 0, 0.03);
+      border-radius: 10px;
+      flex: 1;
       transition: background 0.3s;
     }
 
-    body.dark .grid div {
-      background: rgba(255, 255, 255, 0.05);
+    body.dark .tab {
+      background-color: rgba(255, 255, 255, 0.05);
     }
 
-    .actions {
-      margin-top: 2rem;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .btn {
-      padding: 0.7rem 1.4rem;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s ease;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    }
-
-    .toggle-mode {
-      font-size: 0.9rem;
-      cursor: pointer;
-      border: none;
+    .theme-toggle {
+      margin-top: auto;
       background: none;
-      color: inherit;
+      border: none;
       text-decoration: underline;
-      margin-left: auto;
+      color: inherit;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        box-shadow: none;
+      }
+      .main {
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="header">
-      <img id="avatar" class="profile-pic" src="" alt="Profile" />
-      <button class="toggle-mode" onclick="toggleTheme()">Toggle Theme</button>
-    </div>
-    <div class="info">
-      <h2 id="displayName">Loading...</h2>
-      <p id="email">email@example.com</p>
-    </div>
+  <div class="sidebar">
+    <img id="avatar" src="" alt="Profile Picture" />
+    <h2 id="displayName">User</h2>
+    <p id="email">email@example.com</p>
+    <button onclick="logout()">Logout</button>
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  </div>
 
-    <div class="grid">
-      <div><strong>Role:</strong> Not set</div>
-      <div><strong>Location:</strong> Unknown</div>
-      <div><strong>Skills:</strong> Add skills</div>
-      <div><strong>Website:</strong> <a href="#" target="_blank">none</a></div>
-    </div>
+  <div class="main">
+    <h1>👋 Welcome to your Skill-L!NK Profile</h1>
+    <p>This is your personal space. You’ll be able to update your profile, add your skills, showcase projects, and more.</p>
 
-    <div class="actions">
-      <button class="btn" onclick="alert('Edit coming soon')">Edit Profile</button>
-      <button class="btn" onclick="logout()">Logout</button>
+    <div class="tabs">
+      <div class="tab">
+        <h3>About Me</h3>
+        <p>No information yet. Click "Edit Profile" soon to add a bio, job title, and more.</p>
+      </div>
+      <div class="tab">
+        <h3>Skills</h3>
+        <p>Start adding skills to build your portfolio.</p>
+      </div>
+      <div class="tab">
+        <h3>Projects</h3>
+        <p>Your posted or contributed projects will appear here.</p>
+      </div>
     </div>
   </div>
 
-  <!-- Firebase + Auth -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import {
@@ -179,9 +193,10 @@
       if (user) {
         document.getElementById("displayName").textContent = user.displayName || "Unnamed User";
         document.getElementById("email").textContent = user.email;
-        document.getElementById("avatar").src = user.photoURL || "https://ui-avatars.com/api/?name=" + (user.displayName || "User");
+        document.getElementById("avatar").src =
+          user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || "User"}&background=4facfe&color=fff`;
       } else {
-        alert("🚫 Please log in first.");
+        alert("Please login first.");
         window.location.href = "login.html";
       }
     });
