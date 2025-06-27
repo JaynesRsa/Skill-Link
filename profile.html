@@ -7,23 +7,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-light: #f3f4f6;
+      --bg-light: #f4f5f7;
       --bg-dark: #121212;
-      --text-light: #1e1e1e;
-      --text-dark: #f1f1f1;
-      --panel-light: #ffffff;
-      --panel-dark: #1e1e1e;
+      --text-light: #1a1a1a;
+      --text-dark: #eaeaea;
+      --card-light: #ffffff;
+      --card-dark: #1e1e1e;
       --accent: #4facfe;
+      --accent-hover: #3a9bf5;
+      --shadow: 0 8px 20px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: 'Inter', sans-serif;
       background-color: var(--bg-light);
       color: var(--text-light);
       display: flex;
-      height: 100vh;
-      transition: background 0.3s, color 0.3s;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: var(--transition);
     }
 
     body.dark {
@@ -31,142 +40,314 @@
       color: var(--text-dark);
     }
 
+    .profile-container {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 100vh;
+    }
+
     .sidebar {
-      width: 300px;
-      background-color: var(--panel-light);
-      padding: 2rem;
-      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+      background-color: var(--card-light);
+      padding: 2rem 1.5rem;
+      box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
       align-items: center;
-      transition: background 0.3s;
+      gap: 1.2rem;
+      transition: var(--transition);
     }
 
     body.dark .sidebar {
-      background-color: var(--panel-dark);
+      background-color: var(--card-dark);
     }
 
-    .sidebar img {
-      width: 100px;
-      height: 100px;
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 1rem;
       border: 3px solid var(--accent);
+      margin-bottom: 1rem;
     }
 
     .sidebar h2 {
-      font-size: 1.4rem;
-      margin: 0.5rem 0 0.2rem;
-      text-align: center;
+      font-size: 1.3rem;
+      margin-bottom: 0.2rem;
     }
 
     .sidebar p {
-      font-size: 0.95rem;
-      text-align: center;
-      color: inherit;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 0.8rem;
+      margin-top: 1rem;
     }
 
     .sidebar button {
-      margin-top: 2rem;
-      padding: 0.6rem 1.4rem;
+      padding: 0.7rem;
       border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
       background: linear-gradient(135deg, #4facfe, #00f2fe);
       color: white;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s ease;
-      width: 100%;
     }
 
-    .sidebar button:hover {
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #3a9bf5, #00d9e9);
       transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
-    .main {
-      flex: 1;
-      padding: 2rem;
-      overflow-y: auto;
-    }
-
-    .main h1 {
-      margin-top: 0;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .tab {
-      padding: 1rem;
-      background-color: rgba(0, 0, 0, 0.03);
-      border-radius: 10px;
-      flex: 1;
-      transition: background 0.3s;
-    }
-
-    body.dark .tab {
-      background-color: rgba(255, 255, 255, 0.05);
-    }
-
-    .theme-toggle {
-      margin-top: auto;
-      background: none;
-      border: none;
-      text-decoration: underline;
-      color: inherit;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    a {
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--accent);
       color: var(--accent);
     }
 
+    .btn-secondary:hover {
+      background: rgba(79, 172, 254, 0.1);
+      border-color: var(--accent-hover);
+      color: var(--accent-hover);
+    }
+
+    .content {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      overflow-y: auto;
+    }
+
+    .card {
+      background-color: var(--card-light);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    body.dark .card {
+      background-color: var(--card-dark);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      color: var(--accent);
+    }
+
+    .card p {
+      margin: 0.7rem 0;
+      line-height: 1.5;
+    }
+
+    .card a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: var(--transition);
+      display: inline-block;
+      margin: 0.3rem 0;
+    }
+
+    .card a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+      transform: translateX(3px);
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .skill-tag {
+      background: rgba(79, 172, 254, 0.1);
+      color: var(--accent);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+
+    body.dark .skill-tag {
+      background: rgba(79, 172, 254, 0.2);
+    }
+
     @media (max-width: 768px) {
-      body {
-        flex-direction: column;
+      .profile-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
       }
+
       .sidebar {
-        width: 100%;
-        box-shadow: none;
+        padding: 1.2rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
       }
-      .main {
+
+      .profile-header {
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .avatar {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 0;
+      }
+
+      .sidebar h2 {
+        font-size: 1.1rem;
+        margin-bottom: 0;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sidebar p {
+        display: none;
+      }
+
+      .button-group {
+        flex-direction: row;
+        width: auto;
+        margin-top: 0;
+        gap: 0.5rem;
+      }
+
+      .sidebar button {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+        width: auto;
+        min-width: 100px;
+      }
+
+      .content {
         padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .sidebar h2 {
+        text-align: center;
+      }
+      
+      .button-group {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .sidebar button {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <img id="avatar" src="" alt="Profile Picture" />
-    <h2 id="displayName">User</h2>
-    <p id="email">email@example.com</p>
-    <button onclick="logout()">Logout</button>
-    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
-  </div>
+  <div class="profile-container">
+    <aside class="sidebar">
+      <div class="profile-header">
+        <img id="avatar" class="avatar" src="" alt="User Avatar">
+        <div>
+          <h2 id="displayName">User Name</h2>
+          <p id="email">email@example.com</p>
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button class="btn-primary" onclick="logout()">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+            <path d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+          </svg>
+          Logout
+        </button>
+        <button class="btn-secondary" onclick="toggleTheme()">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+          </svg>
+          Theme
+        </button>
+      </div>
+    </aside>
 
-  <div class="main">
-    <h1>👋 Welcome to your Skill-L!NK Profile</h1>
-    <p>This is your personal space. You’ll be able to update your profile, add your skills, showcase projects, and more.</p>
-
-    <div class="tabs">
-      <div class="tab">
+    <main class="content">
+      <div class="card">
         <h3>About Me</h3>
-        <p>No information yet. Click "Edit Profile" soon to add a bio, job title, and more.</p>
+        <p>This is your public bio. Update it soon to let others know who you are and what you do. Highlight your experience, passions, and what makes you unique in your field.</p>
       </div>
-      <div class="tab">
+      
+      <div class="card">
+        <h3>Role & Location</h3>
+        <p><strong>Role:</strong> Web Developer</p>
+        <p><strong>Location:</strong> South Africa</p>
+      </div>
+      
+      <div class="card">
         <h3>Skills</h3>
-        <p>Start adding skills to build your portfolio.</p>
+        <div class="skills">
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Firebase</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Bug Bounty</span>
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">CSS</span>
+        </div>
       </div>
-      <div class="tab">
-        <h3>Projects</h3>
-        <p>Your posted or contributed projects will appear here.</p>
+      
+      <div class="card">
+        <h3>Links</h3>
+        <p><a href="#" target="_blank">🔗 Portfolio Website</a></p>
+        <p><a href="#" target="_blank">🐙 GitHub Profile</a></p>
+        <p><a href="#" target="_blank">💼 LinkedIn Profile</a></p>
+        <p><a href="#" target="_blank">🐦 Twitter Profile</a></p>
       </div>
-    </div>
+    </main>
   </div>
 
   <script type="module">
@@ -189,12 +370,18 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // Theme persistence
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark');
+    }
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        document.getElementById("displayName").textContent = user.displayName || "Unnamed User";
+        document.getElementById("displayName").textContent = user.displayName || "User";
         document.getElementById("email").textContent = user.email;
         document.getElementById("avatar").src =
-          user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || "User"}&background=4facfe&color=fff`;
+          user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=4facfe&color=fff`;
       } else {
         alert("Please login first.");
         window.location.href = "login.html";
@@ -203,13 +390,16 @@
 
     window.logout = function () {
       signOut(auth).then(() => {
-        alert("✅ Logged out");
+        alert("✅ Logged out successfully");
         window.location.href = "login.html";
+      }).catch((error) => {
+        alert(`Logout failed: ${error.message}`);
       });
     };
 
     window.toggleTheme = function () {
       document.body.classList.toggle("dark");
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
     };
   </script>
 </body>
