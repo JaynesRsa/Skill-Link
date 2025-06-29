@@ -24,7 +24,7 @@
 
     header {
       background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.95)),
-                  url('logo1.png') center/contain no-repeat;
+                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="%234f46e5" opacity="0.3"/><path d="M100,30 L130,170 L70,170 Z" fill="white"/></svg>') center/contain no-repeat;
       padding: 4rem 1rem 3rem;
       text-align: center;
       border-bottom: 1px solid #2e2e2e;
@@ -136,17 +136,30 @@
       .nav-buttons { flex-direction: column; }
       .feature-card { width: 100%; margin-bottom: 1.5rem; }
     }
+    
+    /* Animation for the logo */
+    @keyframes linkPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .logo-link {
+      animation: linkPulse 2s infinite;
+      display: inline-block;
+    }
   </style>
 </head>
 <body>
 
   <header data-aos="fade-down">
     <div class="container">
-      <h1><strong>Skill-L!NK 🔗</strong></h1>
+      <h1><strong>Skill<span class="logo-link">🔗</span>L!NK</strong></h1>
       <p>Build Together. Win Together.</p>
       <div class="nav-buttons">
-        <a href="auth.html">Login</a>
-        <a href="auth.html">Register</a>
+        <!-- Updated login and register links -->
+        <a href="auth.html?form=login">Login</a>
+        <a href="auth.html?form=register">Register</a>
       </div>
     </div>
   </header>
@@ -175,7 +188,8 @@
       <h2>Ready to Join?</h2>
       <p>Create an account and start discovering exciting projects built by passionate people like you.</p>
       <div class="nav-buttons">
-        <a href="auth.html">Get Started</a>
+        <!-- Updated Get Started link -->
+        <a href="auth.html?form=register">Register Now!</a>
       </div>
     </div>
   </section>
@@ -195,7 +209,7 @@
   <section class="section" data-aos="fade-up">
     <div class="container">
       <h2>🎯 Our Mission</h2>
-      <p>To unlock the world’s creative potential by building a place where anyone — from anywhere — can share, connect, and build something meaningful.</p>
+      <p>To unlock the world's creative potential by building a place where anyone — from anywhere — can share, connect, and build something meaningful.</p>
     </div>
   </section>
 
@@ -241,9 +255,10 @@
   <section class="section call-to-action" data-aos="zoom-in-up">
     <div class="container">
       <h2>✨ Join the Movement</h2>
-      <p>Be part of a growing network where ideas turn into actions. Let’s build the future together.</p>
+      <p>Be part of a growing network where ideas turn into actions. Let's build the future together.</p>
       <div class="nav-buttons">
-        <a href="auth.html">Get Started</a>
+        <!-- Updated Get Started link -->
+        <a href="auth.html?form=register">Get Started</a>
       </div>
     </div>
   </section>
