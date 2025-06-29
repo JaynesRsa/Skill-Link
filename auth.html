@@ -473,6 +473,19 @@
         const forgotPassword = document.getElementById('forgotPassword');
         const notification = document.getElementById('notification');
 
+        // NEW CODE: Check URL parameters to determine which form to show
+        const urlParams = new URLSearchParams(window.location.search);
+        const formType = urlParams.get('form');
+        
+        // If the URL has ?form=register, show the sign-up form immediately
+        if (formType === 'register') {
+            container.classList.add("active");
+        }
+        // If the URL has ?form=login, show the sign-in form immediately
+        else if (formType === 'login') {
+            container.classList.remove("active");
+        }
+
         // Toggle between sign-in and sign-up forms
         registerBtn.addEventListener('click', () => {
             container.classList.add("active");
