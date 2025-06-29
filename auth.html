@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skill-L!NK - Login / Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      overflow: hidden;
+      position: relative;
+      width: 800px;
+      max-width: 100%;
+      min-height: 500px;
+      display: flex;
+    }
+
+    .form-container {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      transition: all 0.6s ease-in-out;
+    }
+
+    .sign-in, .sign-up {
+      width: 50%;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container.active .sign-in {
+      transform: translateX(100%);
+    }
+
+    .sign-up {
+      left: 0;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .container.active .sign-up {
+      transform: translateX(100%);
+      opacity: 1;
+      z-index: 5;
+      animation: show 0.6s;
+    }
+
+    @keyframes show {
+      0%, 49.99% {
+        opacity: 0;
+        z-index: 1;
+      }
+      50%, 100% {
+        opacity: 1;
+        z-index: 5;
+      }
+    }
+
+    .toggle-container {
+      position: absolute;
+      left: 50%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, #512da8, #5c6bc0);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2rem;
+      transition: all 0.6s ease-in-out;
+      text-align: center;
+    }
+
+    .container.active .toggle-container {
+      transform: translateX(-100%);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    input {
+      padding: 0.9rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 0.9rem;
+      margin-top: 1rem;
+      border: none;
+      background-color: #512da8;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #3f1fa0;
+    }
+
+    a {
+      color: #0066ff;
+      font-size: 0.9rem;
+      text-decoration: none;
+      margin-top: 0.5rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+      .toggle-container {
+        display: none;
+      }
+      .sign-in, .sign-up {
+        width: 100%;
+        position: relative;
+        transform: none !important;
+        opacity: 1 !important;
+        z-index: 5 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="container">
+    <div class="form-container sign-up">
+      <form id="registerForm">
+        <h2>Register</h2>
+        <input type="text" id="regName" placeholder="Full Name" required />
+        <input type="email" id="regEmail" placeholder="Email" required />
+        <input type="password" id="regPassword" placeholder="Password" required />
+        <button type="submit">Sign Up</button>
+        <a href="#" id="switchToLogin">Already have an account?</a>
+      </form>
+    </div>
+
+    <div class="form-container sign-in">
+      <form id="loginForm">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Sign In</button>
+        <a href="#" id="forgotPassword">Forgot your password?</a>
+        <a href="#" id="switchToRegister">Create an account</a>
+      </form>
+    </div>
+
+    <div class="toggle-container">
+      <h1>Skill-L!NK</h1>
+      <p>Build Together. Win Together.</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      setPersistence,
+      browserSessionPersistence,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      updateProfile,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
+      authDomain: "skill-link-6d699.firebaseapp.com",
+      projectId: "skill-link-6d699",
+      storageBucket: "skill-link-6d699.appspot.com",
+      messagingSenderId: "705249950767",
+      appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const container = document.getElementById('container');
+    const switchToRegister = document.getElementById('switchToRegister');
+    const switchToLogin = document.getElementById('switchToLogin');
+
+    switchToRegister.addEventListener('click', (e) => {
+      e.preventDefault();
+      container.classList.add("active");
+    });
+
+    switchToLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      container.classList.remove("active");
+    });
+
+    // 🔐 Handle Registration
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('regName').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: name });
+        alert("✅ Registered as " + name);
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        alert("❌ Registration Error: " + err.message);
+      }
+    });
+
+    // 🔑 Handle Login
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        await setPersistence(auth, browserSessionPersistence);
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("✅ Logged in!");
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        alert("❌ Login Error: " + err.message);
+      }
+    });
+
+    // 🔁 Handle Password Reset
+    document.getElementById('forgotPassword').addEventListener('click', (e) => {
+      e.preventDefault();
+      const email = prompt("Enter your email to reset your password:");
+      if (email) {
+        sendPasswordResetEmail(auth, email)
+          .then(() => alert("📨 Reset email sent! Check your inbox."))
+          .catch(err => alert("❌ Reset Error: " + err.message));
+      }
+    });
+  </script>
+
+</body>
+</html>
