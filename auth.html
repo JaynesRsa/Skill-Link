@@ -49,12 +49,12 @@
       position: relative;
       width: 100%;
       max-width: 900px;
-      height: 600px;
       background: white;
       border-radius: var(--border-radius);
       box-shadow: var(--shadow);
       overflow: hidden;
       display: flex;
+      flex-direction: column;
       animation: scaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
@@ -63,40 +63,60 @@
       to { transform: scale(1); opacity: 1; }
     }
 
-    .form-container {
-      position: absolute;
-      top: 0;
-      height: 100%;
-      width: 50%;
+    .logo {
+      position: relative;
+      padding: 25px 30px 10px;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      z-index: 10;
       display: flex;
       align-items: center;
+      gap: 8px;
+      text-align: center;
       justify-content: center;
+      background: white;
+    }
+
+    .logo span {
+      color: var(--primary);
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .logo i {
+      font-size: 24px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
       transition: var(--transition);
       z-index: 2;
       opacity: 1;
+      width: 100%;
     }
 
     .sign-in {
-      left: 0;
-      width: 50%;
-      z-index: 2;
+      display: flex;
     }
 
     .sign-up {
-      left: 0;
-      width: 50%;
-      opacity: 0;
-      z-index: 1;
+      display: none;
     }
 
     form {
       background: white;
       display: flex;
       flex-direction: column;
-      padding: 0 50px;
-      height: 100%;
-      justify-content: center;
-      align-items: center;
+      padding: 0 30px 30px;
       text-align: center;
       width: 100%;
     }
@@ -104,15 +124,17 @@
     h2 {
       font-weight: 700;
       color: var(--dark);
-      margin-bottom: 30px;
-      font-size: 28px;
+      margin-bottom: 25px;
+      font-size: 24px;
       letter-spacing: -0.5px;
+      padding-top: 10px;
     }
 
     .social-container {
-      margin: 20px 0;
+      margin: 15px 0;
       display: flex;
       gap: 15px;
+      justify-content: center;
     }
 
     .social-container a {
@@ -151,7 +173,7 @@
     span {
       font-size: 14px;
       color: var(--gray);
-      margin: 15px 0;
+      margin: 10px 0;
       display: block;
       font-weight: 500;
     }
@@ -176,7 +198,7 @@
     input {
       background: var(--light);
       border: none;
-      padding: 22px 50px 8px 20px; /* Added right padding for eye icon */
+      padding: 22px 50px 8px 20px;
       width: 100%;
       border-radius: 10px;
       font-size: 16px;
@@ -234,8 +256,8 @@
       color: white;
       font-size: 16px;
       font-weight: 600;
-      padding: 16px 45px;
-      margin: 25px 0 15px;
+      padding: 16px 20px;
+      margin: 20px 0 15px;
       letter-spacing: 0.5px;
       transition: var(--transition);
       cursor: pointer;
@@ -298,148 +320,35 @@
       outline: none;
     }
 
-    .overlay-container {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 50%;
-      height: 100%;
-      overflow: hidden;
-      transition: transform 0.6s ease-in-out;
-      z-index: 100;
-    }
-
-    .overlay {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: 0 0;
-      color: #fff;
-      position: relative;
-      left: -100%;
-      height: 100%;
-      width: 200%;
-      transform: translateX(0);
-      transition: transform 0.6s ease-in-out;
-    }
-
-    .overlay-panel {
-      position: absolute;
+    .form-toggle {
       display: flex;
-      align-items: center;
       justify-content: center;
-      flex-direction: column;
-      padding: 0 40px;
-      text-align: center;
-      top: 0;
-      height: 100%;
-      width: 50%;
-      transform: translateX(0);
-      transition: transform 0.6s ease-in-out;
-      opacity: 0;
-      animation: fadeIn 0.5s forwards 0.3s;
+      gap: 15px;
+      padding: 15px 0;
+      background: white;
+      border-top: 1px solid var(--light-gray);
+      margin-top: 10px;
     }
 
-    .overlay-left {
-      transform: translateX(-20%);
-    }
-
-    .overlay-right {
-      right: 0;
-      transform: translateX(0);
-    }
-
-    .overlay-panel h1 {
-      font-size: 38px;
-      font-weight: 800;
-      margin-bottom: 20px;
-      letter-spacing: -0.5px;
-      color: white;
-    }
-
-    .overlay-panel p {
-      font-size: 18px;
-      font-weight: 400;
-      line-height: 1.6;
-      margin-bottom: 30px;
-      max-width: 350px;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .ghost {
-      background-color: transparent;
-      border: 2px solid #fff;
-      margin-top: 20px;
-      padding: 14px 35px;
-      color: white;
+    .form-toggle button {
+      background: none;
+      border: none;
+      font-size: 16px;
       font-weight: 600;
-      border-radius: 10px;
+      color: var(--primary);
       cursor: pointer;
+      padding: 8px 15px;
+      border-radius: 8px;
       transition: var(--transition);
     }
 
-    .ghost:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-3px);
-      box-shadow: 0 7px 15px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Animation */
-    .container.right-panel-active .sign-in {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-
-    .container.right-panel-active .sign-up {
-      transform: translateX(100%);
-      opacity: 1;
-      z-index: 5;
-    }
-
-    .container.right-panel-active .overlay-container {
-      transform: translateX(-100%);
-    }
-
-    .container.right-panel-active .overlay {
-      transform: translateX(50%);
-    }
-
-    .container.right-panel-active .overlay-left {
-      transform: translateX(0);
-    }
-
-    .container.right-panel-active .overlay-right {
-      transform: translateX(20%);
-    }
-
-    .logo {
-      position: absolute;
-      top: 30px;
-      left: 40px;
-      font-size: 28px;
-      font-weight: 800;
+    .form-toggle button.active {
+      background: var(--primary-light);
       color: var(--primary-dark);
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
-    .logo span {
-      color: var(--primary);
-      margin: 0;
-      font-size: 28px;
-    }
-
-    .logo i {
-      font-size: 24px;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+    .form-toggle button:hover {
+      background: var(--primary-light);
     }
 
     .notification {
@@ -499,70 +408,205 @@
       margin-top: 4px;
     }
 
-    /* Responsive */
-    @media (max-width: 900px) {
+    /* Desktop styles */
+    @media (min-width: 900px) {
       .container {
-        height: auto;
-        flex-direction: column;
-        max-width: 500px;
-      }
-      
-      .form-container {
-        position: relative;
-        width: 100%;
-        height: auto;
-        padding: 60px 0 40px;
-      }
-      
-      .overlay-container {
-        display: none;
-      }
-      
-      .sign-in, .sign-up {
-        width: 100%;
-        left: 0;
+        flex-direction: row;
+        height: 600px;
       }
       
       .logo {
-        position: relative;
+        position: absolute;
+        top: 30px;
+        left: 40px;
+        padding: 0;
+        justify-content: flex-start;
+        text-align: left;
+        background: transparent;
+      }
+      
+      .form-container {
+        position: absolute;
         top: 0;
-        left: 0;
-        text-align: center;
-        margin: 25px 0 10px;
+        height: 100%;
+        width: 50%;
+        display: flex;
+        align-items: center;
         justify-content: center;
       }
       
-      form {
-        padding: 0 30px;
+      .sign-in {
+        left: 0;
+        width: 50%;
+        z-index: 2;
       }
       
-      button.submit-btn {
-        padding: 16px;
-        font-size: 15px;
+      .sign-up {
+        left: 0;
+        width: 50%;
+        opacity: 0;
+        z-index: 1;
+        display: flex;
+      }
+      
+      form {
+        padding: 0 50px;
+        height: 100%;
+        justify-content: center;
+      }
+      
+      h2 {
+        font-size: 28px;
+        margin-bottom: 30px;
+      }
+      
+      .form-toggle {
+        display: none;
+      }
+      
+      .overlay-container {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        transition: transform 0.6s ease-in-out;
+        z-index: 100;
+      }
+      
+      .overlay {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 0 0;
+        color: #fff;
+        position: relative;
+        left: -100%;
+        height: 100%;
+        width: 200%;
+        transform: translateX(0);
+        transition: transform 0.6s ease-in-out;
+      }
+      
+      .overlay-panel {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 40px;
+        text-align: center;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        transform: translateX(0);
+        transition: transform 0.6s ease-in-out;
+        opacity: 0;
+        animation: fadeIn 0.5s forwards 0.3s;
+      }
+      
+      .overlay-left {
+        transform: translateX(-20%);
+      }
+      
+      .overlay-right {
+        right: 0;
+        transform: translateX(0);
+      }
+      
+      .overlay-panel h1 {
+        font-size: 38px;
+        font-weight: 800;
+        margin-bottom: 20px;
+        letter-spacing: -0.5px;
+        color: white;
+      }
+      
+      .overlay-panel p {
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        max-width: 350px;
+        color: rgba(255, 255, 255, 0.9);
       }
       
       .ghost {
-        padding: 14px;
+        background-color: transparent;
+        border: 2px solid #fff;
+        margin-top: 20px;
+        padding: 14px 35px;
+        color: white;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      
+      .ghost:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-3px);
+        box-shadow: 0 7px 15px rgba(0, 0, 0, 0.15);
+      }
+      
+      /* Animation */
+      .container.right-panel-active .sign-in {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      
+      .container.right-panel-active .sign-up {
+        transform: translateX(100%);
+        opacity: 1;
+        z-index: 5;
+      }
+      
+      .container.right-panel-active .overlay-container {
+        transform: translateX(-100%);
+      }
+      
+      .container.right-panel-active .overlay {
+        transform: translateX(50%);
+      }
+      
+      .container.right-panel-active .overlay-left {
+        transform: translateX(0);
+      }
+      
+      .container.right-panel-active .overlay-right {
+        transform: translateX(20%);
       }
     }
 
+    /* Mobile improvements */
     @media (max-width: 480px) {
+      body {
+        padding: 10px;
+        display: block;
+      }
+      
       .container {
         border-radius: 12px;
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
       }
       
+      .logo {
+        padding: 20px 20px 10px;
+        font-size: 24px;
+      }
+      
       form {
-        padding: 0 20px;
+        padding: 0 20px 20px;
       }
       
       h2 {
-        font-size: 24px;
+        font-size: 22px;
         margin-bottom: 20px;
       }
       
       .social-container {
-        margin: 15px 0;
+        margin: 10px 0;
       }
       
       .social-container a {
@@ -590,12 +634,22 @@
       }
       
       button.submit-btn {
-        margin: 20px 0 10px;
+        margin: 15px 0 10px;
         padding: 14px;
+        font-size: 15px;
       }
       
       a {
         font-size: 14px;
+      }
+      
+      .form-toggle {
+        padding: 10px 0;
+      }
+      
+      .form-toggle button {
+        font-size: 15px;
+        padding: 6px 12px;
       }
     }
   </style>
@@ -607,7 +661,7 @@
       <div>Skill-<span>L!NK</span></div>
     </div>
     
-    <div class="form-container sign-in">
+    <div class="form-container sign-in" id="signInForm">
       <form id="loginForm">
         <h2>Sign In</h2>
         <div class="social-container">
@@ -638,11 +692,10 @@
           <span>Sign In</span>
           <div class="spinner"></div>
         </button>
-        <a href="#" id="switchToRegister">Don't have an account? Sign Up</a>
       </form>
     </div>
     
-    <div class="form-container sign-up">
+    <div class="form-container sign-up" id="signUpForm">
       <form id="registerForm">
         <h2>Create Account</h2>
         <div class="social-container">
@@ -676,8 +729,12 @@
           <span>Sign Up</span>
           <div class="spinner"></div>
         </button>
-        <a href="#" id="switchToLogin">Already have an account? Sign In</a>
       </form>
+    </div>
+    
+    <div class="form-toggle">
+      <button id="showSignIn" class="active">Sign In</button>
+      <button id="showSignUp">Sign Up</button>
     </div>
     
     <div class="overlay-container">
@@ -704,9 +761,13 @@
     </div>
   </div>
 
-  <script type="module">
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('container');
+      const signInForm = document.getElementById('signInForm');
+      const signUpForm = document.getElementById('signUpForm');
+      const showSignIn = document.getElementById('showSignIn');
+      const showSignUp = document.getElementById('showSignUp');
       const signUpButton = document.getElementById('signUp');
       const signInButton = document.getElementById('signIn');
       const loginForm = document.getElementById('loginForm');
@@ -716,10 +777,23 @@
       const forgotPassword = document.getElementById('forgotPassword');
       const notification = document.getElementById('notification');
       const togglePasswordButtons = document.querySelectorAll('.toggle-password');
-      const switchToRegister = document.getElementById('switchToRegister');
-      const switchToLogin = document.getElementById('switchToLogin');
       
-      // Toggle between sign-in and sign-up
+      // Mobile form toggle
+      showSignIn.addEventListener('click', () => {
+        signInForm.style.display = 'flex';
+        signUpForm.style.display = 'none';
+        showSignIn.classList.add('active');
+        showSignUp.classList.remove('active');
+      });
+      
+      showSignUp.addEventListener('click', () => {
+        signInForm.style.display = 'none';
+        signUpForm.style.display = 'flex';
+        showSignIn.classList.remove('active');
+        showSignUp.classList.add('active');
+      });
+      
+      // Desktop toggle between sign-in and sign-up
       signUpButton.addEventListener('click', () => {
         container.classList.add('right-panel-active');
       });
@@ -728,21 +802,9 @@
         container.classList.remove('right-panel-active');
       });
       
-      // Switch form links
-      switchToRegister.addEventListener('click', (e) => {
-        e.preventDefault();
-        container.classList.add('right-panel-active');
-      });
-      
-      switchToLogin.addEventListener('click', (e) => {
-        e.preventDefault();
-        container.classList.remove('right-panel-active');
-      });
-      
-      // Toggle password visibility - FIXED IMPLEMENTATION
+      // Toggle password visibility - FIXED
       togglePasswordButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-          // Find the password input related to this button
           const passwordContainer = button.closest('.password-container');
           const passwordInput = passwordContainer.querySelector('input');
           const icon = button.querySelector('i');
@@ -758,7 +820,7 @@
       });
       
       // Login form submission
-      loginForm.addEventListener('submit', async (e) => {
+      loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value;
@@ -774,7 +836,7 @@
       });
       
       // Registration form submission
-      registerForm.addEventListener('submit', async (e) => {
+      registerForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById('fullName').value.trim();
         const email = document.getElementById('registerEmail').value.trim();
@@ -787,7 +849,14 @@
         setTimeout(() => {
           registerButton.classList.remove('loading');
           showNotification('Success!', 'Your account has been created', 'success');
-          container.classList.remove('right-panel-active');
+          
+          // On mobile, switch back to sign in
+          if (window.innerWidth < 900) {
+            signInForm.style.display = 'flex';
+            signUpForm.style.display = 'none';
+            showSignIn.classList.add('active');
+            showSignUp.classList.remove('active');
+          }
         }, 1500);
       });
       
@@ -816,6 +885,23 @@
           notification.classList.remove('show');
         }, 4000);
       }
+      
+      // Initialize form states
+      function initFormStates() {
+        if (window.innerWidth < 900) {
+          signInForm.style.display = 'flex';
+          signUpForm.style.display = 'none';
+        } else {
+          signInForm.style.display = 'flex';
+          signUpForm.style.display = 'flex';
+        }
+      }
+      
+      // Initialize on load
+      initFormStates();
+      
+      // Update on resize
+      window.addEventListener('resize', initFormStates);
     });
   </script>
 </body>
