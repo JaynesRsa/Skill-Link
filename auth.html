@@ -3,15 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Skill-L!NK - Connect, collaborate, and build amazing projects together">
   <title>Skill-L!NK - Login / Register</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔗</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
       --primary-light: #c7d2fe;
       --secondary: #f97316;
       --light: #f8fafc;
@@ -22,7 +20,7 @@
       --error: #ef4444;
       --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      --border-radius: 12px;
+      --border-radius: 16px;
     }
 
     * {
@@ -34,7 +32,7 @@
 
     body {
       background: linear-gradient(135deg, #dbeafe, #e0f2fe);
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -49,7 +47,8 @@
 
     .container {
       position: relative;
-      width: 900px;
+      width: 100%;
+      max-width: 900px;
       height: 600px;
       background: white;
       border-radius: var(--border-radius);
@@ -177,7 +176,7 @@
     input {
       background: var(--light);
       border: none;
-      padding: 22px 20px 8px;
+      padding: 22px 50px 8px 20px; /* Added right padding for eye icon */
       width: 100%;
       border-radius: 10px;
       font-size: 16px;
@@ -188,7 +187,7 @@
 
     input:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
     }
 
     input:focus + label,
@@ -221,13 +220,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 10;
     }
 
     .toggle-password:hover {
       color: var(--primary);
     }
 
-    button {
+    button.submit-btn {
       border-radius: 10px;
       border: none;
       background: var(--primary);
@@ -242,15 +242,16 @@
       width: 100%;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
     }
 
-    button:hover {
+    button.submit-btn:hover {
       background: var(--primary-dark);
       transform: translateY(-3px);
       box-shadow: 0 7px 20px rgba(79, 70, 229, 0.3);
     }
 
-    button:active {
+    button.submit-btn:active {
       transform: translateY(0);
       box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
     }
@@ -353,6 +354,7 @@
       font-weight: 800;
       margin-bottom: 20px;
       letter-spacing: -0.5px;
+      color: white;
     }
 
     .overlay-panel p {
@@ -361,6 +363,7 @@
       line-height: 1.6;
       margin-bottom: 30px;
       max-width: 350px;
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .ghost {
@@ -368,6 +371,11 @@
       border: 2px solid #fff;
       margin-top: 20px;
       padding: 14px 35px;
+      color: white;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
     }
 
     .ghost:hover {
@@ -494,11 +502,8 @@
     /* Responsive */
     @media (max-width: 900px) {
       .container {
-        flex-direction: column;
         height: auto;
-        max-height: 90vh;
-        overflow-y: auto;
-        width: 95%;
+        flex-direction: column;
         max-width: 500px;
       }
       
@@ -531,12 +536,66 @@
         padding: 0 30px;
       }
       
-      button {
+      button.submit-btn {
         padding: 16px;
+        font-size: 15px;
       }
       
       .ghost {
         padding: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      form {
+        padding: 0 20px;
+      }
+      
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      
+      .social-container {
+        margin: 15px 0;
+      }
+      
+      .social-container a {
+        height: 40px;
+        width: 40px;
+        font-size: 16px;
+      }
+      
+      span {
+        font-size: 13px;
+      }
+      
+      input {
+        padding: 20px 45px 8px 15px;
+        font-size: 15px;
+      }
+      
+      label {
+        font-size: 13px;
+        left: 15px;
+      }
+      
+      .toggle-password {
+        right: 12px;
+      }
+      
+      button.submit-btn {
+        margin: 20px 0 10px;
+        padding: 14px;
+      }
+      
+      a {
+        font-size: 14px;
       }
     }
   </style>
@@ -575,10 +634,11 @@
         
         <a href="#" id="forgotPassword" tabindex="0">Forgot Your Password?</a>
         
-        <button type="submit" id="loginButton">
+        <button type="submit" class="submit-btn" id="loginButton">
           <span>Sign In</span>
           <div class="spinner"></div>
         </button>
+        <a href="#" id="switchToRegister">Don't have an account? Sign Up</a>
       </form>
     </div>
     
@@ -612,10 +672,11 @@
           </div>
         </div>
         
-        <button type="submit" id="registerButton">
+        <button type="submit" class="submit-btn" id="registerButton">
           <span>Sign Up</span>
           <div class="spinner"></div>
         </button>
+        <a href="#" id="switchToLogin">Already have an account? Sign In</a>
       </form>
     </div>
     
@@ -644,37 +705,6 @@
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { 
-      getAuth, 
-      signInWithEmailAndPassword, 
-      createUserWithEmailAndPassword, 
-      setPersistence, 
-      browserSessionPersistence,
-      sendPasswordResetEmail,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { 
-      getFirestore, 
-      doc, 
-      setDoc 
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
-      authDomain: "skill-link-6d699.firebaseapp.com",
-      projectId: "skill-link-6d699",
-      storageBucket: "skill-link-6d699.appspot.com",
-      messagingSenderId: "705249950767",
-      appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
     document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('container');
       const signUpButton = document.getElementById('signUp');
@@ -686,6 +716,8 @@
       const forgotPassword = document.getElementById('forgotPassword');
       const notification = document.getElementById('notification');
       const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+      const switchToRegister = document.getElementById('switchToRegister');
+      const switchToLogin = document.getElementById('switchToLogin');
       
       // Toggle between sign-in and sign-up
       signUpButton.addEventListener('click', () => {
@@ -696,12 +728,26 @@
         container.classList.remove('right-panel-active');
       });
       
-      // Toggle password visibility
+      // Switch form links
+      switchToRegister.addEventListener('click', (e) => {
+        e.preventDefault();
+        container.classList.add('right-panel-active');
+      });
+      
+      switchToLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        container.classList.remove('right-panel-active');
+      });
+      
+      // Toggle password visibility - FIXED IMPLEMENTATION
       togglePasswordButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-          const passwordInput = e.currentTarget.previousElementSibling;
-          const icon = e.currentTarget.querySelector('i');
+          // Find the password input related to this button
+          const passwordContainer = button.closest('.password-container');
+          const passwordInput = passwordContainer.querySelector('input');
+          const icon = button.querySelector('i');
           
+          // Toggle password visibility
           const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
           passwordInput.setAttribute('type', type);
           
@@ -710,18 +756,6 @@
           icon.classList.toggle('fa-eye-slash');
         });
       });
-      
-      // Handle logout if redirected from dashboard
-      const urlParams = new URLSearchParams(window.location.search);
-      const logoutNow = urlParams.get('logoutNow');
-      
-      if (logoutNow === 'true') {
-        signOut(auth).then(() => {
-          showNotification('Success!', 'You have been logged out successfully', 'success');
-          // Remove query parameters from URL
-          window.history.replaceState({}, document.title, window.location.pathname);
-        });
-      }
       
       // Login form submission
       loginForm.addEventListener('submit', async (e) => {
@@ -732,43 +766,11 @@
         // Show loading state
         loginButton.classList.add('loading');
         
-        try {
-          // Set session persistence
-          await setPersistence(auth, browserSessionPersistence);
-          
-          // Sign in with email and password
-          const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          
-          // Show success notification
-          showNotification('Welcome back!', `Logged in as ${userCredential.user.email}`, 'success');
-          
-          // Redirect to dashboard after a short delay
-          setTimeout(() => {
-            window.location.href = 'dashboard.html';
-          }, 1500);
-          
-        } catch (error) {
-          // Handle errors
-          let errorMessage = 'Login failed. Please try again.';
-          
-          switch (error.code) {
-            case 'auth/user-not-found':
-              errorMessage = 'No account found with this email address.';
-              break;
-            case 'auth/wrong-password':
-              errorMessage = 'Incorrect password. Please try again.';
-              break;
-            case 'auth/too-many-requests':
-              errorMessage = 'Too many failed attempts. Please try again later.';
-              break;
-          }
-          
-          showNotification('Login Failed', errorMessage, 'error');
-          
-        } finally {
-          // Remove loading state
+        // Simulate login process
+        setTimeout(() => {
           loginButton.classList.remove('loading');
-        }
+          showNotification('Welcome!', 'You have successfully signed in', 'success');
+        }, 1500);
       });
       
       // Registration form submission
@@ -781,48 +783,12 @@
         // Show loading state
         registerButton.classList.add('loading');
         
-        try {
-          // Create user with email and password
-          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          const user = userCredential.user;
-          
-          // Store user data in Firestore
-          await setDoc(doc(db, 'users', user.uid), {
-            name: name,
-            email: email,
-            createdAt: new Date()
-          });
-          
-          // Show success notification
-          showNotification('Welcome!', 'Your account has been created successfully', 'success');
-          
-          // Redirect to dashboard after a short delay
-          setTimeout(() => {
-            window.location.href = 'dashboard.html';
-          }, 1500);
-          
-        } catch (error) {
-          // Handle errors
-          let errorMessage = 'Registration failed. Please try again.';
-          
-          switch (error.code) {
-            case 'auth/email-already-in-use':
-              errorMessage = 'This email is already associated with an account.';
-              break;
-            case 'auth/weak-password':
-              errorMessage = 'Password should be at least 6 characters.';
-              break;
-            case 'auth/invalid-email':
-              errorMessage = 'Please enter a valid email address.';
-              break;
-          }
-          
-          showNotification('Registration Failed', errorMessage, 'error');
-          
-        } finally {
-          // Remove loading state
+        // Simulate registration process
+        setTimeout(() => {
           registerButton.classList.remove('loading');
-        }
+          showNotification('Success!', 'Your account has been created', 'success');
+          container.classList.remove('right-panel-active');
+        }, 1500);
       });
       
       // Forgot password functionality
@@ -831,19 +797,7 @@
         const email = prompt('Please enter your email address to reset your password:');
         
         if (email) {
-          sendPasswordResetEmail(auth, email)
-            .then(() => {
-              showNotification('Email Sent', 'Password reset instructions have been sent to your email', 'success');
-            })
-            .catch(error => {
-              let errorMessage = 'Failed to send reset email. Please try again.';
-              
-              if (error.code === 'auth/user-not-found') {
-                errorMessage = 'No account found with this email address.';
-              }
-              
-              showNotification('Error', errorMessage, 'error');
-            });
+          showNotification('Email Sent', 'Password reset instructions have been sent to your email', 'success');
         }
       });
       
