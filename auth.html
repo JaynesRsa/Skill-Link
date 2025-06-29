@@ -188,7 +188,7 @@
       border-radius: 10px;
       font-size: 16px;
       outline: none;
-      transition: var(--transition;
+      transition: var(--transition); /* FIXED: Added missing parenthesis */
       border: 2px solid transparent;
     }
 
@@ -437,6 +437,8 @@
         padding: 0 50px;
         height: 100%;
         justify-content: center;
+        max-width: 400px;
+        margin: 0 auto;
       }
       
       h2 {
@@ -564,15 +566,20 @@
     }
 
     /* Mobile improvements */
-    @media (max-width: 480px) {
+    @media (max-width: 899px) { /* Changed to 899px to avoid overlap */
       body {
         padding: 10px;
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       
       .container {
         border-radius: 12px;
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        max-width: 95%;
+        min-height: auto;
+        height: auto;
       }
       
       .logo {
@@ -640,12 +647,13 @@
         top: 15px;
         right: 15px;
         left: 15px;
-        max-width: none;
+        max-width: calc(100% - 30px);
       }
     }
   </style>
 </head>
 <body>
+  <!-- Rest of the HTML remains the same -->
   <div class="container" id="container">
     <div class="logo">
       <i class="fas fa-link"></i>
@@ -753,6 +761,7 @@
   </div>
 
   <script type="module">
+    // Firebase and JavaScript code remains the same
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import {
       getAuth,
