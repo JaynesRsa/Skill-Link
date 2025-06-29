@@ -37,12 +37,21 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      animation: fadeIn 0.8s ease-out;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top right, var(--primary-light), transparent 40%),
+                  radial-gradient(circle at bottom left, #ffedd5, transparent 40%);
+      opacity: 0.4;
+      z-index: -1;
     }
 
     .container {
@@ -55,33 +64,22 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      animation: scaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes scaleIn {
-      from { transform: scale(0.95); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
     }
 
     .logo {
-      position: relative;
-      padding: 25px 30px 10px;
+      padding: 25px 30px 15px;
       font-size: 28px;
       font-weight: 800;
       color: var(--primary-dark);
-      z-index: 10;
       display: flex;
       align-items: center;
-      gap: 8px;
-      text-align: center;
+      gap: 10px;
       justify-content: center;
-      background: white;
+      z-index: 10;
     }
 
     .logo span {
       color: var(--primary);
-      margin: 0;
-      font-size: 28px;
     }
 
     .logo i {
@@ -96,27 +94,15 @@
     }
 
     .form-container {
-      display: flex;
-      flex-direction: column;
-      transition: var(--transition);
+      padding: 0 30px 30px;
+      position: relative;
       z-index: 2;
-      opacity: 1;
-      width: 100%;
-    }
-
-    .sign-in {
-      display: flex;
-    }
-
-    .sign-up {
-      display: none;
     }
 
     form {
       background: white;
       display: flex;
       flex-direction: column;
-      padding: 0 30px 30px;
       text-align: center;
       width: 100%;
     }
@@ -127,7 +113,6 @@
       margin-bottom: 25px;
       font-size: 24px;
       letter-spacing: -0.5px;
-      padding-top: 10px;
     }
 
     .social-container {
@@ -203,7 +188,7 @@
       border-radius: 10px;
       font-size: 16px;
       outline: none;
-      transition: var(--transition);
+      transition: var(--transition;
       border: 2px solid transparent;
     }
 
@@ -327,7 +312,6 @@
       padding: 15px 0;
       background: white;
       border-top: 1px solid var(--light-gray);
-      margin-top: 10px;
     }
 
     .form-toggle button {
@@ -365,6 +349,7 @@
       transform: translateX(150%);
       transition: transform 0.4s ease-out;
       z-index: 1000;
+      max-width: 400px;
     }
 
     .notification.show {
@@ -422,7 +407,6 @@
         padding: 0;
         justify-content: flex-start;
         text-align: left;
-        background: transparent;
       }
       
       .form-container {
@@ -433,6 +417,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0;
       }
       
       .sign-in {
@@ -446,7 +431,6 @@
         width: 50%;
         opacity: 0;
         z-index: 1;
-        display: flex;
       }
       
       form {
@@ -596,7 +580,7 @@
         font-size: 24px;
       }
       
-      form {
+      .form-container {
         padding: 0 20px 20px;
       }
       
@@ -650,6 +634,13 @@
       .form-toggle button {
         font-size: 15px;
         padding: 6px 12px;
+      }
+      
+      .notification {
+        top: 15px;
+        right: 15px;
+        left: 15px;
+        max-width: none;
       }
     }
   </style>
@@ -761,7 +752,32 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      setPersistence,
+      browserSessionPersistence,
+      signOut,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
+      authDomain: "skill-link-6d699.firebaseapp.com",
+      projectId: "skill-link-6d699",
+      storageBucket: "skill-link-6d699.appspot.com",
+      messagingSenderId: "705249950767",
+      appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
     document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('container');
       const signInForm = document.getElementById('signInForm');
@@ -778,15 +794,29 @@
       const notification = document.getElementById('notification');
       const togglePasswordButtons = document.querySelectorAll('.toggle-password');
       
+      // Handle logout if redirected from dashboard
+      const urlParams = new URLSearchParams(window.location.search);
+      const logoutNow = urlParams.get('logoutNow');
+      
+      if (logoutNow === 'true') {
+        signOut(auth).then(() => {
+          showNotification('Success!', 'You have been logged out successfully', 'success');
+          // Remove query parameters from URL
+          window.history.replaceState({}, document.title, window.location.pathname);
+        });
+      }
+      
       // Mobile form toggle
-      showSignIn.addEventListener('click', () => {
+      showSignIn.addEventListener('click', (e) => {
+        e.preventDefault();
         signInForm.style.display = 'flex';
         signUpForm.style.display = 'none';
         showSignIn.classList.add('active');
         showSignUp.classList.remove('active');
       });
       
-      showSignUp.addEventListener('click', () => {
+      showSignUp.addEventListener('click', (e) => {
+        e.preventDefault();
         signInForm.style.display = 'none';
         signUpForm.style.display = 'flex';
         showSignIn.classList.remove('active');
@@ -794,15 +824,17 @@
       });
       
       // Desktop toggle between sign-in and sign-up
-      signUpButton.addEventListener('click', () => {
+      signUpButton.addEventListener('click', (e) => {
+        e.preventDefault();
         container.classList.add('right-panel-active');
       });
       
-      signInButton.addEventListener('click', () => {
+      signInButton.addEventListener('click', (e) => {
+        e.preventDefault();
         container.classList.remove('right-panel-active');
       });
       
-      // Toggle password visibility - FIXED
+      // Toggle password visibility
       togglePasswordButtons.forEach(button => {
         button.addEventListener('click', (e) => {
           const passwordContainer = button.closest('.password-container');
@@ -820,7 +852,7 @@
       });
       
       // Login form submission
-      loginForm.addEventListener('submit', (e) => {
+      loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value;
@@ -828,15 +860,47 @@
         // Show loading state
         loginButton.classList.add('loading');
         
-        // Simulate login process
-        setTimeout(() => {
+        try {
+          // Set session persistence
+          await setPersistence(auth, browserSessionPersistence);
+          
+          // Sign in with email and password
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          
+          // Show success notification
+          showNotification('Welcome!', `Logged in as ${userCredential.user.email}`, 'success');
+          
+          // Redirect to dashboard after a short delay
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 1500);
+          
+        } catch (error) {
+          // Handle errors
+          let errorMessage = 'Login failed. Please try again.';
+          
+          switch (error.code) {
+            case 'auth/user-not-found':
+              errorMessage = 'No account found with this email address.';
+              break;
+            case 'auth/wrong-password':
+              errorMessage = 'Incorrect password. Please try again.';
+              break;
+            case 'auth/too-many-requests':
+              errorMessage = 'Too many failed attempts. Please try again later.';
+              break;
+          }
+          
+          showNotification('Login Failed', errorMessage, 'error');
+          
+        } finally {
+          // Remove loading state
           loginButton.classList.remove('loading');
-          showNotification('Welcome!', 'You have successfully signed in', 'success');
-        }, 1500);
+        }
       });
       
       // Registration form submission
-      registerForm.addEventListener('submit', (e) => {
+      registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = document.getElementById('fullName').value.trim();
         const email = document.getElementById('registerEmail').value.trim();
@@ -845,19 +909,52 @@
         // Show loading state
         registerButton.classList.add('loading');
         
-        // Simulate registration process
-        setTimeout(() => {
-          registerButton.classList.remove('loading');
+        try {
+          // Create user with email and password
+          await createUserWithEmailAndPassword(auth, email, password);
+          
+          // Show success notification
           showNotification('Success!', 'Your account has been created', 'success');
           
-          // On mobile, switch back to sign in
+          // Clear registration form
+          document.getElementById('fullName').value = '';
+          document.getElementById('registerEmail').value = '';
+          document.getElementById('registerPassword').value = '';
+          
+          // On mobile, switch to sign in form
           if (window.innerWidth < 900) {
             signInForm.style.display = 'flex';
             signUpForm.style.display = 'none';
             showSignIn.classList.add('active');
             showSignUp.classList.remove('active');
+          } 
+          // On desktop, switch to sign in panel
+          else {
+            container.classList.remove('right-panel-active');
           }
-        }, 1500);
+          
+        } catch (error) {
+          // Handle errors
+          let errorMessage = 'Registration failed. Please try again.';
+          
+          switch (error.code) {
+            case 'auth/email-already-in-use':
+              errorMessage = 'This email is already associated with an account.';
+              break;
+            case 'auth/weak-password':
+              errorMessage = 'Password should be at least 6 characters.';
+              break;
+            case 'auth/invalid-email':
+              errorMessage = 'Please enter a valid email address.';
+              break;
+          }
+          
+          showNotification('Registration Failed', errorMessage, 'error');
+          
+        } finally {
+          // Remove loading state
+          registerButton.classList.remove('loading');
+        }
       });
       
       // Forgot password functionality
@@ -866,7 +963,19 @@
         const email = prompt('Please enter your email address to reset your password:');
         
         if (email) {
-          showNotification('Email Sent', 'Password reset instructions have been sent to your email', 'success');
+          sendPasswordResetEmail(auth, email)
+            .then(() => {
+              showNotification('Email Sent', 'Password reset instructions have been sent to your email', 'success');
+            })
+            .catch(error => {
+              let errorMessage = 'Failed to send reset email. Please try again.';
+              
+              if (error.code === 'auth/user-not-found') {
+                errorMessage = 'No account found with this email address.';
+              }
+              
+              showNotification('Error', errorMessage, 'error');
+            });
         }
       });
       
