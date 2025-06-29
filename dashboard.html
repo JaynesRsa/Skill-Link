@@ -4,95 +4,716 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard - Skill-L!NK</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     :root {
-      --primary: #4facfe;
-      --primary-dark: #0066ff;
-      --light-bg: #f8faff;
-      --text-dark: #1f1f1f;
-      --text-light: #ffffff;
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #c7d2fe;
+      --secondary: #f97316;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --glass: rgba(255, 255, 255, 0.1);
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: var(--light-bg);
-      color: var(--text-dark);
       min-height: 100vh;
+      background: linear-gradient(135deg, #dbeafe, #e0f2fe);
+      color: var(--dark);
+      padding: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    .container {
-      background: #ffffff;
-      padding: 3rem;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      max-width: 900px;
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      text-align: center;
+      height: 100%;
+      background: radial-gradient(circle at top right, var(--primary-light), transparent 40%),
+                  radial-gradient(circle at bottom left, #ffedd5, transparent 40%);
+      opacity: 0.4;
+      z-index: -1;
     }
 
-    h1 {
-      font-size: 2.4rem;
-      margin-bottom: 0.5rem;
+    .dashboard-container {
+      width: 100%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .logo-icon {
+      font-size: 28px;
+      color: var(--primary);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
       color: var(--primary-dark);
     }
 
-    #userEmail {
-      color: #555;
-      font-size: 1rem;
-      margin-bottom: 2rem;
+    .logo-text span {
+      color: var(--primary);
     }
 
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
+    .user-info {
+      padding: 20px 0;
+      border-top: 1px solid var(--light-gray);
+      border-bottom: 1px solid var(--light-gray);
+      margin-bottom: 30px;
     }
 
-    .buttons a, #logoutBtn {
-      text-decoration: none;
-      background: var(--primary);
-      color: var(--text-light);
-      padding: 0.9rem 1.2rem;
-      border-radius: 10px;
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 32px;
+      color: white;
       font-weight: 600;
-      font-size: 1rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      border: none;
-      display: block;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
     }
 
-    .buttons a:hover, #logoutBtn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    .user-email {
+      text-align: center;
+      font-size: 16px;
+      color: var(--gray);
+      margin-bottom: 20px;
     }
 
-    #logoutBtn {
+    .user-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Navigation */
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      margin-bottom: 10px;
       cursor: pointer;
+      transition: var(--transition);
+      color: var(--gray);
+      text-decoration: none;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    .nav-item i {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    /* Main content */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .header {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header h1 i {
+      color: var(--warning);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--light);
+      color: var(--primary);
+      border: 1px solid var(--primary-light);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary-light);
+      transform: translateY(-3px);
+    }
+
+    /* Dashboard grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 25px;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title i {
+      font-size: 24px;
+      color: var(--primary);
+    }
+
+    .card-badge {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Stats card */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-card i {
+      font-size: 32px;
+      margin-bottom: 15px;
+      opacity: 0.8;
+    }
+
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-card .label {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    /* Activity feed */
+    .activity-item {
+      display: flex;
+      gap: 15px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--primary-dark);
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .activity-desc {
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .activity-time {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 5px;
+    }
+
+    /* Projects card */
+    .project-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 0;
+    }
+
+    .project-item:not(:last-child) {
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .project-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+    }
+
+    .project-info {
+      flex: 1;
+    }
+
+    .project-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .project-meta {
+      display: flex;
+      gap: 15px;
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .project-meta i {
+      margin-right: 5px;
+    }
+
+    .project-progress {
+      height: 6px;
+      background: var(--light-gray);
+      border-radius: 3px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .project-progress-bar {
+      height: 100%;
+      background: var(--success);
+      border-radius: 3px;
+      width: 65%;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+      
+      .header-actions {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+      
+      .btn {
+        flex: 1;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🌟 Skill-L!NK Dashboard</h1>
-    <p id="userEmail">Loading...</p>
-
-    <div class="buttons">
-      <a href="profile.html">👤 My Profile</a>
-      <a href="projects.html">📂 Browse Projects</a>
-      <a href="create-project.html">➕ Post a Project</a>
-      <a href="leaderboard.html">🏆 Leaderboard</a>
-      <a href="showcase.html">💡 Showcase Wall</a>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <i class="fas fa-link logo-icon"></i>
+        <div class="logo-text">Skill-<span>L!NK</span></div>
+      </div>
+      
+      <div class="user-info">
+        <div class="user-avatar">JS</div>
+        <div class="user-email" id="userEmail">user@example.com</div>
+        
+        <div class="user-stats">
+          <div class="stat-item">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">24</div>
+            <div class="stat-label">Connects</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Skills</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="nav-item active">
+        <i class="fas fa-home"></i>
+        <div>Dashboard</div>
+      </div>
+      <a href="profile.html" class="nav-item">
+        <i class="fas fa-user"></i>
+        <div>My Profile</div>
+      </a>
+      <a href="projects.html" class="nav-item">
+        <i class="fas fa-folder"></i>
+        <div>Browse Projects</div>
+      </a>
+      <a href="create-project.html" class="nav-item">
+        <i class="fas fa-plus-circle"></i>
+        <div>Post a Project</div>
+      </a>
+      <a href="leaderboard.html" class="nav-item">
+        <i class="fas fa-trophy"></i>
+        <div>Leaderboard</div>
+      </a>
+      <a href="showcase.html" class="nav-item">
+        <i class="fas fa-lightbulb"></i>
+        <div>Showcase Wall</div>
+      </a>
+      <a href="settings.html" class="nav-item">
+        <i class="fas fa-cog"></i>
+        <div>Settings</div>
+      </a>
     </div>
-
-    <button id="logoutBtn">🚪 Logout</button>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="header">
+        <h1><i class="fas fa-star"></i> Welcome Back, John!</h1>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="createProjectBtn">
+            <i class="fas fa-plus"></i> New Project
+          </button>
+          <button class="btn btn-secondary" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </div>
+      
+      <div class="dashboard-grid">
+        <!-- Stats Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fas fa-chart-line"></i> Your Stats
+            </div>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <i class="fas fa-tasks"></i>
+              <div class="value">5</div>
+              <div class="label">Active Projects</div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-users"></i>
+              <div class="value">18</div>
+              <div class="label">Collaborators</div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-bolt"></i>
+              <div class="value">92%</div>
+              <div class="label">Profile Complete</div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-award"></i>
+              <div class="value">3</div>
+              <div class="label">Achievements</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fas fa-bell"></i> Recent Activity
+            </div>
+            <div class="card-badge">3 New</div>
+          </div>
+          <div class="activity-feed">
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">New Connection</div>
+                <div class="activity-desc">Sarah Johnson accepted your connection request</div>
+                <div class="activity-time">2 hours ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-thumbs-up"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Project Update</div>
+                <div class="activity-desc">Your project "Eco App" received 3 new proposals</div>
+                <div class="activity-time">5 hours ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-medal"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Achievement Unlocked</div>
+                <div class="activity-desc">You earned the "Collaborator" badge</div>
+                <div class="activity-time">Yesterday</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Projects -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fas fa-rocket"></i> Active Projects
+            </div>
+            <div class="card-badge">View All</div>
+          </div>
+          <div class="projects-list">
+            <div class="project-item">
+              <div class="project-icon">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div class="project-info">
+                <div class="project-title">Eco Shopping App</div>
+                <div class="project-meta">
+                  <span><i class="fas fa-users"></i> 4 members</span>
+                  <span><i class="far fa-calendar"></i> 12 days left</span>
+                </div>
+                <div class="project-progress">
+                  <div class="project-progress-bar" style="width: 75%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="project-item">
+              <div class="project-icon">
+                <i class="fas fa-globe"></i>
+              </div>
+              <div class="project-info">
+                <div class="project-title">Community Website</div>
+                <div class="project-meta">
+                  <span><i class="fas fa-users"></i> 6 members</span>
+                  <span><i class="far fa-calendar"></i> 8 days left</span>
+                </div>
+                <div class="project-progress">
+                  <div class="project-progress-bar" style="width: 40%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="project-item">
+              <div class="project-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="project-info">
+                <div class="project-title">Analytics Dashboard</div>
+                <div class="project-meta">
+                  <span><i class="fas fa-users"></i> 3 members</span>
+                  <span><i class="far fa-calendar"></i> 20 days left</span>
+                </div>
+                <div class="project-progress">
+                  <div class="project-progress-bar" style="width: 25%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recommended -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fas fa-lightbulb"></i> Recommended For You
+            </div>
+          </div>
+          <div class="projects-list">
+            <div class="project-item">
+              <div class="project-icon" style="background: linear-gradient(135deg, #f97316, #fb923c);">
+                <i class="fas fa-paint-brush"></i>
+              </div>
+              <div class="project-info">
+                <div class="project-title">UI/UX Designer Needed</div>
+                <div class="project-meta">
+                  <span><i class="fas fa-code-branch"></i> Design</span>
+                  <span><i class="far fa-clock"></i> 3 days ago</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-item">
+              <div class="project-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                <i class="fas fa-server"></i>
+              </div>
+              <div class="project-info">
+                <div class="project-title">Backend Developer</div>
+                <div class="project-meta">
+                  <span><i class="fas fa-code-branch"></i> Development</span>
+                  <span><i class="far fa-clock"></i> 1 day ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script type="module">
@@ -117,18 +738,49 @@
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        document.getElementById("userEmail").textContent = "Logged in as: " + user.email;
+        // Update user email
+        document.getElementById("userEmail").textContent = user.email;
+        
+        // Create initials for avatar
+        const nameParts = user.email.split('@')[0].split('.');
+        let initials = '';
+        if (nameParts.length > 1) {
+          initials = nameParts[0][0] + nameParts[1][0];
+        } else if (nameParts[0].length >= 2) {
+          initials = nameParts[0].substring(0, 2);
+        } else {
+          initials = user.email.substring(0, 2);
+        }
+        
+        document.querySelector('.user-avatar').textContent = initials.toUpperCase();
+        
+        // Update welcome message with user name
+        const userName = user.displayName || user.email.split('@')[0];
+        document.querySelector('.header h1').innerHTML = `<i class="fas fa-star"></i> Welcome Back, ${userName}!`;
 
-        // Setup logout only when user is confirmed
+        // Setup logout button
         const logoutBtn = document.getElementById("logoutBtn");
         logoutBtn.addEventListener("click", () => {
-          // Redirect to login with logout flag
-          window.location.href = "login.html?logoutNow=true";
+          signOut(auth).then(() => {
+            window.location.href = "index.html?logoutNow=true";
+          }).catch((error) => {
+            console.error("Logout error:", error);
+          });
+        });
+        
+        // Create project button
+        document.getElementById('createProjectBtn').addEventListener('click', () => {
+          window.location.href = 'create-project.html';
         });
       } else {
-        alert("🚫 You must be logged in to view this page.");
-        window.location.href = "login.html";
+        // Redirect to login if not authenticated
+        window.location.href = "auth.html";
       }
+    });
+
+    // Add animations to cards
+    document.querySelectorAll('.card').forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.1}s`;
     });
   </script>
 </body>
