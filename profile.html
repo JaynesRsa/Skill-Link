@@ -383,8 +383,8 @@
         document.getElementById("avatar").src =
           user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=4facfe&color=fff`;
       } else {
-        alert("Please login first.");
-        window.location.href = "login.html";
+        
+        window.location.href = "auth.html";
       }
     });
 
