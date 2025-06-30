@@ -21,7 +21,6 @@
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            padding: 20px;
             overflow: hidden;
             position: relative;
         }
@@ -52,14 +51,13 @@
         }
 
         .container {
-            width: 100%;
-            max-width: 900px;
+            width: 900px;
+            height: 600px;
             background: rgba(255, 255, 255, 0.92);
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             display: flex;
-            min-height: 600px;
             position: relative;
             backdrop-filter: blur(10px);
         }
@@ -104,7 +102,7 @@
         /* Form styling */
         form {
             width: 100%;
-            max-width: 400px;
+            max-width: 350px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -119,7 +117,7 @@
         }
 
         .social-container {
-            margin: 20px 0;
+            margin: 25px 0;
             display: flex;
             justify-content: center;
             gap: 15px;
@@ -153,7 +151,7 @@
             text-align: center;
             color: #777;
             font-size: 14px;
-            margin: 15px 0;
+            margin: 15px 0 25px;
             position: relative;
         }
 
@@ -176,7 +174,7 @@
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             position: relative;
         }
 
@@ -232,7 +230,7 @@
 
         .forgot-password {
             text-align: right;
-            margin: -10px 0 20px;
+            margin: -15px 0 25px;
             font-size: 14px;
             color: #5c6bc0;
             text-decoration: none;
@@ -340,16 +338,16 @@
         }
 
         .toggle-panel h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 20px;
             font-weight: 700;
         }
 
         .toggle-panel p {
-            font-size: 16px;
+            font-size: 17px;
             line-height: 1.6;
             margin-bottom: 30px;
-            max-width: 300px;
+            max-width: 320px;
             opacity: 0.9;
         }
 
@@ -357,49 +355,17 @@
             background: transparent;
             border: 2px solid white;
             color: white;
-            padding: 12px 35px;
+            padding: 12px 40px;
             border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 14px;
+            font-size: 16px;
         }
 
         .ghost:hover {
             background: rgba(255, 255, 255, 0.15);
             transform: translateY(-3px);
-        }
-
-        /* Mobile toggle */
-        .mobile-toggle {
-            display: none;
-            width: 100%;
-            padding: 20px;
-            background: white;
-            border-top: 1px solid #eee;
-            z-index: 20;
-        }
-
-        .mobile-toggle-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .mobile-toggle-btn {
-            background: none;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 15px;
-        }
-
-        .mobile-toggle-btn.active {
-            background: #5c6bc0;
-            color: white;
         }
 
         /* Notification */
@@ -451,96 +417,14 @@
 
         .notification-title {
             font-weight: 600;
-            font-size: 15px;
+            font-size: 16px;
             color: #333;
         }
 
         .notification-message {
-            font-size: 13px;
+            font-size: 14px;
             color: #666;
             margin-top: 4px;
-        }
-
-        /* Responsive styles */
-        @media (max-width: 900px) {
-            .container {
-                flex-direction: column;
-                min-height: auto;
-                max-width: 500px;
-            }
-            
-            .form-container {
-                width: 100%;
-                padding: 40px 30px;
-                position: relative;
-                transition: none;
-                transform: none !important;
-            }
-            
-            .sign-in-container {
-                display: flex;
-                opacity: 1;
-            }
-            
-            .sign-up-container {
-                display: none;
-                position: relative;
-                transform: none;
-                opacity: 0;
-            }
-            
-            .container.active .sign-in-container {
-                display: none;
-                opacity: 0;
-            }
-            
-            .container.active .sign-up-container {
-                display: flex;
-                opacity: 1;
-                transform: none;
-            }
-            
-            .toggle-container {
-                display: none;
-            }
-            
-            .mobile-toggle {
-                display: block;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-                background: linear-gradient(135deg, #1a2a6c, #b21f1f);
-            }
-            
-            .container {
-                border-radius: 15px;
-            }
-            
-            .form-container {
-                padding: 30px 20px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .social-container a {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-            }
-            
-            .input-group input {
-                padding: 22px 15px 8px;
-            }
-            
-            .submit-btn {
-                padding: 14px;
-                font-size: 15px;
-            }
         }
 
         /* Animation for the link */
@@ -646,14 +530,6 @@
                 <button class="ghost" id="registerBtn">Sign Up</button>
             </div>
         </div>
-        
-        <!-- Mobile Toggle -->
-        <div class="mobile-toggle">
-            <div class="mobile-toggle-buttons">
-                <button class="mobile-toggle-btn active" id="mobileLoginBtn">Sign In</button>
-                <button class="mobile-toggle-btn" id="mobileRegisterBtn">Sign Up</button>
-            </div>
-        </div>
     </div>
     
     <div class="notification" id="notification">
@@ -698,8 +574,6 @@
         const signUpButton = document.getElementById('signUpButton');
         const loginBtn = document.getElementById('loginBtn');
         const registerBtn = document.getElementById('registerBtn');
-        const mobileLoginBtn = document.getElementById('mobileLoginBtn');
-        const mobileRegisterBtn = document.getElementById('mobileRegisterBtn');
         const forgotPassword = document.getElementById('forgotPassword');
         const notification = document.getElementById('notification');
         const togglePasswordBtns = document.querySelectorAll('.toggle-password');
@@ -710,9 +584,9 @@
         
         // Show the appropriate form based on URL parameter
         if (formType === 'register') {
-            showSignUpForm();
+            container.classList.add('active');
         } else {
-            showSignInForm();
+            container.classList.remove('active');
         }
 
         // Toggle password visibility
@@ -734,33 +608,13 @@
         });
 
         // Desktop form toggle
-        loginBtn.addEventListener('click', showSignInForm);
-        registerBtn.addEventListener('click', showSignUpForm);
-
-        // Mobile form toggle
-        mobileLoginBtn.addEventListener('click', showSignInForm);
-        mobileRegisterBtn.addEventListener('click', showSignUpForm);
-
-        // Form toggle functions
-        function showSignInForm() {
+        loginBtn.addEventListener('click', () => {
             container.classList.remove('active');
-            if (window.innerWidth <= 900) {
-                document.querySelector('.sign-in-container').style.display = 'flex';
-                document.querySelector('.sign-up-container').style.display = 'none';
-                mobileLoginBtn.classList.add('active');
-                mobileRegisterBtn.classList.remove('active');
-            }
-        }
+        });
 
-        function showSignUpForm() {
+        registerBtn.addEventListener('click', () => {
             container.classList.add('active');
-            if (window.innerWidth <= 900) {
-                document.querySelector('.sign-in-container').style.display = 'none';
-                document.querySelector('.sign-up-container').style.display = 'flex';
-                mobileLoginBtn.classList.remove('active');
-                mobileRegisterBtn.classList.add('active');
-            }
-        }
+        });
 
         // Sign In form submission
         signInForm.addEventListener('submit', async (e) => {
@@ -833,7 +687,7 @@
                 signUpForm.reset();
                 
                 // Switch to sign in form
-                showSignInForm();
+                container.classList.remove('active');
                 
             } catch (error) {
                 // Handle errors
