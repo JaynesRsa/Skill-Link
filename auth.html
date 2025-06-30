@@ -78,6 +78,7 @@
 
         .sign-in-container {
             opacity: 1;
+            transform: translateX(0);
         }
 
         .sign-up-container {
@@ -376,6 +377,7 @@
             padding: 20px;
             background: white;
             border-top: 1px solid #eee;
+            z-index: 20;
         }
 
         .mobile-toggle-buttons {
@@ -470,27 +472,32 @@
             .form-container {
                 width: 100%;
                 padding: 40px 30px;
+                position: relative;
+                transition: none;
+                transform: none !important;
             }
             
             .sign-in-container {
                 display: flex;
+                opacity: 1;
             }
             
             .sign-up-container {
                 display: none;
+                position: relative;
                 transform: none;
-                position: static;
+                opacity: 0;
             }
             
             .container.active .sign-in-container {
                 display: none;
-                transform: none;
+                opacity: 0;
             }
             
             .container.active .sign-up-container {
                 display: flex;
-                transform: none;
                 opacity: 1;
+                transform: none;
             }
             
             .toggle-container {
@@ -703,13 +710,9 @@
         
         // Show the appropriate form based on URL parameter
         if (formType === 'register') {
-            container.classList.add('active');
-            mobileLoginBtn.classList.remove('active');
-            mobileRegisterBtn.classList.add('active');
+            showSignUpForm();
         } else {
-            container.classList.remove('active');
-            mobileLoginBtn.classList.add('active');
-            mobileRegisterBtn.classList.remove('active');
+            showSignInForm();
         }
 
         // Toggle password visibility
@@ -731,26 +734,33 @@
         });
 
         // Desktop form toggle
-        loginBtn.addEventListener('click', () => {
-            container.classList.remove('active');
-        });
-
-        registerBtn.addEventListener('click', () => {
-            container.classList.add('active');
-        });
+        loginBtn.addEventListener('click', showSignInForm);
+        registerBtn.addEventListener('click', showSignUpForm);
 
         // Mobile form toggle
-        mobileLoginBtn.addEventListener('click', () => {
-            container.classList.remove('active');
-            mobileLoginBtn.classList.add('active');
-            mobileRegisterBtn.classList.remove('active');
-        });
+        mobileLoginBtn.addEventListener('click', showSignInForm);
+        mobileRegisterBtn.addEventListener('click', showSignUpForm);
 
-        mobileRegisterBtn.addEventListener('click', () => {
+        // Form toggle functions
+        function showSignInForm() {
+            container.classList.remove('active');
+            if (window.innerWidth <= 900) {
+                document.querySelector('.sign-in-container').style.display = 'flex';
+                document.querySelector('.sign-up-container').style.display = 'none';
+                mobileLoginBtn.classList.add('active');
+                mobileRegisterBtn.classList.remove('active');
+            }
+        }
+
+        function showSignUpForm() {
             container.classList.add('active');
-            mobileLoginBtn.classList.remove('active');
-            mobileRegisterBtn.classList.add('active');
-        });
+            if (window.innerWidth <= 900) {
+                document.querySelector('.sign-in-container').style.display = 'none';
+                document.querySelector('.sign-up-container').style.display = 'flex';
+                mobileLoginBtn.classList.remove('active');
+                mobileRegisterBtn.classList.add('active');
+            }
+        }
 
         // Sign In form submission
         signInForm.addEventListener('submit', async (e) => {
@@ -823,9 +833,7 @@
                 signUpForm.reset();
                 
                 // Switch to sign in form
-                container.classList.remove('active');
-                mobileLoginBtn.classList.add('active');
-                mobileRegisterBtn.classList.remove('active');
+                showSignInForm();
                 
             } catch (error) {
                 // Handle errors
