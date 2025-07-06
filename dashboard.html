@@ -1,787 +1,1555 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard - Skill-L!NK</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-    :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --primary-light: #c7d2fe;
-      --secondary: #f97316;
-      --light: #f8fafc;
-      --dark: #1e293b;
-      --gray: #64748b;
-      --light-gray: #e2e8f0;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --error: #ef4444;
-      --card-bg: rgba(255, 255, 255, 0.85);
-      --glass: rgba(255, 255, 255, 0.1);
-      --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillLink - Multi-Skill Collaboration Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --accent2: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4ade80;
+            --warning: #facc15;
+            --card-bg: #ffffff;
+            --sidebar-bg: #f1f5f9;
+            --progress: #3a0ca3;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #dbeafe, #e0f2fe);
-      color: var(--dark);
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow-x: hidden;
-    }
+        body {
+            background: linear-gradient(135deg, #f0f7ff, #e6f7ff);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at top right, var(--primary-light), transparent 40%),
-                  radial-gradient(circle at bottom left, #ffedd5, transparent 40%);
-      opacity: 0.4;
-      z-index: -1;
-    }
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    .dashboard-container {
-      width: 100%;
-      max-width: 1200px;
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 24px;
-      animation: fadeIn 0.8s ease-out;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
 
-    /* Sidebar */
-    .sidebar {
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      padding: 30px;
-      display: flex;
-      flex-direction: column;
-      height: fit-content;
-    }
+        .logo span {
+            font-size: 1rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 40px;
-    }
+        .header-actions {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
 
-    .logo-icon {
-      font-size: 28px;
-      color: var(--primary);
-      animation: pulse 2s infinite;
-    }
+        .search-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+        }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.3rem;
+            width: 200px;
+            outline: none;
+        }
 
-    .logo-text {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--primary-dark);
-    }
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
 
-    .logo-text span {
-      color: var(--primary);
-    }
+        .notification {
+            position: relative;
+            cursor: pointer;
+        }
 
-    .user-info {
-      padding: 20px 0;
-      border-top: 1px solid var(--light-gray);
-      border-bottom: 1px solid var(--light-gray);
-      margin-bottom: 30px;
-    }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--warning);
+            color: var(--dark);
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
 
-    .user-avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 15px;
-      font-size: 32px;
-      color: white;
-      font-weight: 600;
-    }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            position: relative;
+        }
 
-    .user-email {
-      text-align: center;
-      font-size: 16px;
-      color: var(--gray);
-      margin-bottom: 20px;
-    }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
 
-    .user-stats {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 15px;
-    }
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 0.5rem 0;
+            width: 200px;
+            z-index: 10;
+            display: none;
+        }
 
-    .stat-item {
-      text-align: center;
-    }
+        .user-dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+        }
 
-    .stat-value {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--primary-dark);
-    }
+        .user-dropdown a:hover {
+            background: #f0f7ff;
+        }
 
-    .stat-label {
-      font-size: 12px;
-      color: var(--gray);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+        .user-profile:hover .user-dropdown {
+            display: block;
+        }
 
-    /* Navigation */
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 14px 20px;
-      border-radius: 12px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      transition: var(--transition);
-      color: var(--gray);
-      text-decoration: none;
-    }
+        /* Trending Projects Marquee */
+        .trending-projects {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
 
-    .nav-item:hover, .nav-item.active {
-      background: var(--primary-light);
-      color: var(--primary-dark);
-    }
+        .trending-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
 
-    .nav-item i {
-      font-size: 20px;
-      width: 24px;
-      text-align: center;
-    }
+        .trending-marquee {
+            display: flex;
+            gap: 2rem;
+            animation: scroll 30s linear infinite;
+            white-space: nowrap;
+        }
 
-    /* Main content */
-    .main-content {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
+        .trending-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
 
-    .header {
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      padding: 25px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        .trending-rank {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--warning);
+        }
 
-    .header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--primary-dark);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+        .trending-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
 
-    .header h1 i {
-      color: var(--warning);
-    }
+        .trending-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
 
-    .header-actions {
-      display: flex;
-      gap: 15px;
-    }
+        .trending-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
 
-    .btn {
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      border: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
 
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
+        /* Main Content Layout */
+        .dashboard-container {
+            display: flex;
+            flex: 1;
+            padding: 2rem;
+            gap: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-3px);
-      box-shadow: 0 7px 20px rgba(79, 70, 229, 0.3);
-    }
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            align-content: start;
+        }
 
-    .btn-secondary {
-      background: var(--light);
-      color: var(--primary);
-      border: 1px solid var(--primary-light);
-    }
+        .sidebar {
+            width: 300px;
+            background-color: var(--sidebar-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: var(--shadow);
+        }
 
-    .btn-secondary:hover {
-      background: var(--primary-light);
-      transform: translateY(-3px);
-    }
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
 
-    /* Dashboard grid */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-    }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
 
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      padding: 25px;
-      transition: var(--transition);
-    }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
+        /* Dashboard Navigation */
+        .dashboard-nav {
+            margin-bottom: 2rem;
+        }
 
-    .card-title {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--primary-dark);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+        .nav-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-    .card-title i {
-      font-size: 24px;
-      color: var(--primary);
-    }
+        .nav-links {
+            list-style: none;
+        }
 
-    .card-badge {
-      background: var(--primary-light);
-      color: var(--primary-dark);
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-    }
+        .nav-links li {
+            margin-bottom: 0.8rem;
+        }
 
-    /* Stats card */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
 
-    .stat-card {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-    }
+        .nav-links a:hover, .nav-links a.active {
+            background-color: var(--primary);
+            color: white;
+        }
 
-    .stat-card i {
-      font-size: 32px;
-      margin-bottom: 15px;
-      opacity: 0.8;
-    }
+        .nav-links a i {
+            width: 24px;
+            text-align: center;
+        }
 
-    .stat-card .value {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
+        /* Profile Section */
+        .profile-info {
+            text-align: center;
+            padding: 1.5rem 0;
+        }
 
-    .stat-card .label {
-      font-size: 14px;
-      opacity: 0.9;
-    }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            margin: 0 auto 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            border: 3px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Activity feed */
-    .activity-item {
-      display: flex;
-      gap: 15px;
-      padding: 15px 0;
-      border-bottom: 1px solid var(--light-gray);
-    }
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
 
-    .activity-item:last-child {
-      border-bottom: none;
-    }
+        .profile-tag {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
 
-    .activity-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--primary-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      color: var(--primary-dark);
-    }
+        /* Badges Section */
+        .badges-section {
+            margin-top: 1.5rem;
+        }
 
-    .activity-content {
-      flex: 1;
-    }
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
 
-    .activity-title {
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
+        .badge {
+            background: linear-gradient(135deg, #f0f7ff, #e2eeff);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
 
-    .activity-desc {
-      font-size: 14px;
-      color: var(--gray);
-    }
+        .badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    .activity-time {
-      font-size: 12px;
-      color: var(--gray);
-      margin-top: 5px;
-    }
+        .badge i {
+            font-size: 1.8rem;
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
 
-    /* Projects card */
-    .project-item {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 15px 0;
-    }
+        .badge-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
 
-    .project-item:not(:last-child) {
-      border-bottom: 1px solid var(--light-gray);
-    }
+        /* Skill Categories Section */
+        .skill-categories {
+            margin-top: 2rem;
+        }
 
-    .project-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 20px;
-    }
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
 
-    .project-info {
-      flex: 1;
-    }
+        .category-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
 
-    .project-title {
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
+        .category-card:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    .project-meta {
-      display: flex;
-      gap: 15px;
-      font-size: 14px;
-      color: var(--gray);
-    }
+        .category-card i {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
 
-    .project-meta i {
-      margin-right: 5px;
-    }
+        /* Active Projects Section */
+        .active-projects {
+            grid-column: span 2;
+        }
 
-    .project-progress {
-      height: 6px;
-      background: var(--light-gray);
-      border-radius: 3px;
-      margin-top: 10px;
-      overflow: hidden;
-    }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .project-progress-bar {
-      height: 100%;
-      background: var(--success);
-      border-radius: 3px;
-      width: 65%;
-    }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
 
-    /* Responsive */
-    @media (max-width: 900px) {
-      .dashboard-container {
-        grid-template-columns: 1fr;
-      }
-      
-      .sidebar {
-        margin-bottom: 20px;
-      }
-    }
+        .project-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 14px;
+            padding: 1.5rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid var(--primary);
+        }
 
-    @media (max-width: 600px) {
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-      }
-      
-      .header-actions {
-        width: 100%;
-        flex-wrap: wrap;
-      }
-      
-      .btn {
-        flex: 1;
-        justify-content: center;
-      }
-    }
-  </style>
+        .project-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(58, 12, 163, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover::after {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .project-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tag {
+            background-color: #e0e7ff;
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .project-desc {
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .project-members {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .member-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--accent2));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            color: white;
+            margin-right: -10px;
+            border: 2px solid white;
+        }
+
+        .member-count {
+            margin-left: 1rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .project-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .project-progress {
+            margin-top: 1rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-title {
+            font-weight: 600;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .progress-percent {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            width: 0;
+            transition: width 1s ease-in-out;
+        }
+
+        /* Collaboration Tools */
+        .collab-tools {
+            grid-column: span 2;
+        }
+
+        .tools-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            background-color: #e2e8f0;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #cbd5e1;
+        }
+
+        .tools-content {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .tools-section {
+            flex: 1;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 14px;
+            padding: 1.5rem;
+        }
+
+        .tools-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tools-list {
+            list-style: none;
+        }
+
+        .tools-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tools-list li:last-child {
+            border-bottom: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(67, 97, 238, 0.4);
+        }
+
+        /* Top Collaborators */
+        .top-collaborators {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+        }
+
+        .collaborator-list {
+            list-style: none;
+        }
+
+        .collaborator-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .collaborator-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .rank {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .rank-1 {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+        }
+
+        .rank-2 {
+            background: linear-gradient(135deg, #c0c0c0, #a9a9a9);
+        }
+
+        .rank-3 {
+            background: linear-gradient(135deg, #cd7f32, #a56e2d);
+        }
+
+        .collab-info {
+            flex: 1;
+        }
+
+        .collab-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .collab-tag {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 500;
+            background-color: #e0e7ff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Project Showcase */
+        .project-showcase {
+            grid-column: span 2;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .showcase-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 250px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .showcase-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .showcase-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .showcase-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .showcase-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .showcase-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--warning);
+            color: var(--dark);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Security Badge */
+        .security-badge {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .active-projects, .collab-tools, .project-showcase {
+                grid-column: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tools-content {
+                flex-direction: column;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .search-bar input {
+                width: 100%;
+            }
+            
+            .trending-item {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            .trending-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.4s; }
+        .card:nth-child(4) { animation-delay: 0.6s; }
+    </style>
 </head>
 <body>
-  <div class="dashboard-container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="logo">
-        <i class="fas fa-link logo-icon"></i>
-        <div class="logo-text">Skill-<span>L!NK</span></div>
-      </div>
-      
-      <div class="user-info">
-        <div class="user-avatar">JS</div>
-        <div class="user-email" id="userEmail">user@example.com</div>
-        
-        <div class="user-stats">
-          <div class="stat-item">
-            <div class="stat-value">12</div>
-            <div class="stat-label">Projects</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">24</div>
-            <div class="stat-label">Connects</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">8</div>
-            <div class="stat-label">Skills</div>
-          </div>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <h1 id="welcomeMessage">SKILL-LINK</h1>
+            <span>Build Together. Win Together.</span>
         </div>
-      </div>
-      
-      <div class="nav-item active">
-        <i class="fas fa-home"></i>
-        <div>Dashboard</div>
-      </div>
-      <a href="profile.html" class="nav-item">
-        <i class="fas fa-user"></i>
-        <div>My Profile</div>
-      </a>
-      <a href="projects.html" class="nav-item">
-        <i class="fas fa-folder"></i>
-        <div>Browse Projects</div>
-      </a>
-      <a href="create-project.html" class="nav-item">
-        <i class="fas fa-plus-circle"></i>
-        <div>Post a Project</div>
-      </a>
-      <a href="leaderboard.html" class="nav-item">
-        <i class="fas fa-trophy"></i>
-        <div>Leaderboard</div>
-      </a>
-      <a href="showcase.html" class="nav-item">
-        <i class="fas fa-lightbulb"></i>
-        <div>Showcase Wall</div>
-      </a>
-      <a href="settings.html" class="nav-item">
-        <i class="fas fa-cog"></i>
-        <div>Settings</div>
-      </a>
-    </div>
-    
-    <!-- Main Content -->
-    <div class="main-content">
-      <div class="header">
-        <h1><i class="fas fa-star"></i> Welcome Back, John!</h1>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search projects, skills, people...">
+        </div>
         <div class="header-actions">
-          <button class="btn btn-primary" id="createProjectBtn">
-            <i class="fas fa-plus"></i> New Project
-          </button>
-          <button class="btn btn-secondary" id="logoutBtn">
-            <i class="fas fa-sign-out-alt"></i> Logout
-          </button>
+            <div class="notification">
+                <i class="fas fa-bell fa-lg"></i>
+                <span class="notification-badge">3</span>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar" id="userAvatar">SL</div>
+                <div id="userEmail">user@example.com</div>
+                <div class="user-dropdown">
+                    <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
         </div>
-      </div>
-      
-      <div class="dashboard-grid">
-        <!-- Stats Card -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <i class="fas fa-chart-line"></i> Your Stats
-            </div>
-          </div>
-          <div class="stats-grid">
-            <div class="stat-card">
-              <i class="fas fa-tasks"></i>
-              <div class="value">5</div>
-              <div class="label">Active Projects</div>
-            </div>
-            <div class="stat-card">
-              <i class="fas fa-users"></i>
-              <div class="value">18</div>
-              <div class="label">Collaborators</div>
-            </div>
-            <div class="stat-card">
-              <i class="fas fa-bolt"></i>
-              <div class="value">92%</div>
-              <div class="label">Profile Complete</div>
-            </div>
-            <div class="stat-card">
-              <i class="fas fa-award"></i>
-              <div class="value">3</div>
-              <div class="label">Achievements</div>
-            </div>
-          </div>
+    </header>
+
+    <!-- Trending Projects Marquee -->
+    <div class="trending-projects">
+        <div class="trending-header">
+            <i class="fas fa-fire"></i>
+            <h3>Trending Projects This Week</h3>
         </div>
-        
-        <!-- Recent Activity -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <i class="fas fa-bell"></i> Recent Activity
-            </div>
-            <div class="card-badge">3 New</div>
-          </div>
-          <div class="activity-feed">
-            <div class="activity-item">
-              <div class="activity-icon">
-                <i class="fas fa-user-plus"></i>
-              </div>
-              <div class="activity-content">
-                <div class="activity-title">New Connection</div>
-                <div class="activity-desc">Sarah Johnson accepted your connection request</div>
-                <div class="activity-time">2 hours ago</div>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon">
-                <i class="fas fa-thumbs-up"></i>
-              </div>
-              <div class="activity-content">
-                <div class="activity-title">Project Update</div>
-                <div class="activity-desc">Your project "Eco App" received 3 new proposals</div>
-                <div class="activity-time">5 hours ago</div>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon">
-                <i class="fas fa-medal"></i>
-              </div>
-              <div class="activity-content">
-                <div class="activity-title">Achievement Unlocked</div>
-                <div class="activity-desc">You earned the "Collaborator" badge</div>
-                <div class="activity-time">Yesterday</div>
-              </div>
-            </div>
-          </div>
+        <div class="trending-marquee" id="trendingMarquee">
+            <!-- Will be populated by JavaScript -->
         </div>
-        
-        <!-- Projects -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <i class="fas fa-rocket"></i> Active Projects
-            </div>
-            <div class="card-badge">View All</div>
-          </div>
-          <div class="projects-list">
-            <div class="project-item">
-              <div class="project-icon">
-                <i class="fas fa-mobile-alt"></i>
-              </div>
-              <div class="project-info">
-                <div class="project-title">Eco Shopping App</div>
-                <div class="project-meta">
-                  <span><i class="fas fa-users"></i> 4 members</span>
-                  <span><i class="far fa-calendar"></i> 12 days left</span>
-                </div>
-                <div class="project-progress">
-                  <div class="project-progress-bar" style="width: 75%"></div>
-                </div>
-              </div>
-            </div>
-            <div class="project-item">
-              <div class="project-icon">
-                <i class="fas fa-globe"></i>
-              </div>
-              <div class="project-info">
-                <div class="project-title">Community Website</div>
-                <div class="project-meta">
-                  <span><i class="fas fa-users"></i> 6 members</span>
-                  <span><i class="far fa-calendar"></i> 8 days left</span>
-                </div>
-                <div class="project-progress">
-                  <div class="project-progress-bar" style="width: 40%"></div>
-                </div>
-              </div>
-            </div>
-            <div class="project-item">
-              <div class="project-icon">
-                <i class="fas fa-chart-line"></i>
-              </div>
-              <div class="project-info">
-                <div class="project-title">Analytics Dashboard</div>
-                <div class="project-meta">
-                  <span><i class="fas fa-users"></i> 3 members</span>
-                  <span><i class="far fa-calendar"></i> 20 days left</span>
-                </div>
-                <div class="project-progress">
-                  <div class="project-progress-bar" style="width: 25%"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Recommended -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <i class="fas fa-lightbulb"></i> Recommended For You
-            </div>
-          </div>
-          <div class="projects-list">
-            <div class="project-item">
-              <div class="project-icon" style="background: linear-gradient(135deg, #f97316, #fb923c);">
-                <i class="fas fa-paint-brush"></i>
-              </div>
-              <div class="project-info">
-                <div class="project-title">UI/UX Designer Needed</div>
-                <div class="project-meta">
-                  <span><i class="fas fa-code-branch"></i> Design</span>
-                  <span><i class="far fa-clock"></i> 3 days ago</span>
-                </div>
-              </div>
-            </div>
-            <div class="project-item">
-              <div class="project-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">
-                <i class="fas fa-server"></i>
-              </div>
-              <div class="project-info">
-                <div class="project-title">Backend Developer</div>
-                <div class="project-meta">
-                  <span><i class="fas fa-code-branch"></i> Development</span>
-                  <span><i class="far fa-clock"></i> 1 day ago</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Dashboard Navigation -->
+            <div class="dashboard-nav">
+                <h2 class="nav-title"><i class="fas fa-chart-line"></i> Dashboard</h2>
+                <ul class="nav-links">
+                    <li><a href="#" class="active"><i class="fas fa-plus-circle"></i> Post Project</a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> My Profile</a></li>
+                    <li><a href="#"><i class="fas fa-trophy"></i> Leaderboard</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Collaborators</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
-      authDomain: "skill-link-6d699.firebaseapp.com",
-      projectId: "skill-link-6d699",
-      storageBucket: "skill-link-6d699.appspot.com",
-      messagingSenderId: "705249950767",
-      appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
-    };
+            <!-- Profile Section -->
+            <div class="card profile-section">
+                <div class="profile-info">
+                    <div class="profile-avatar" id="profileAvatar">SL</div>
+                    <div class="profile-name" id="profileName">Loading...</div>
+                    <div class="profile-tag" id="profileTag">Member</div>
+                    <p id="profileBio">Loading profile information...</p>
+                </div>
+            </div>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+            <!-- Badges Section -->
+            <div class="card badges-section">
+                <h2 class="nav-title"><i class="fas fa-medal"></i> Badges</h2>
+                <div class="badges-grid" id="badgesGrid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // Update user email
-        document.getElementById("userEmail").textContent = user.email;
-        
-        // Create initials for avatar
-        const nameParts = user.email.split('@')[0].split('.');
-        let initials = '';
-        if (nameParts.length > 1) {
-          initials = nameParts[0][0] + nameParts[1][0];
-        } else if (nameParts[0].length >= 2) {
-          initials = nameParts[0].substring(0, 2);
-        } else {
-          initials = user.email.substring(0, 2);
-        }
-        
-        document.querySelector('.user-avatar').textContent = initials.toUpperCase();
-        
-        // Update welcome message with user name
-        const userName = user.displayName || user.email.split('@')[0];
-        document.querySelector('.header h1').innerHTML = `<i class="fas fa-star"></i> Welcome Back, ${userName}!`;
+            <!-- Skill Categories -->
+            <div class="card skill-categories">
+                <h2 class="nav-title"><i class="fas fa-tags"></i> Skill Categories</h2>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <div>Development</div>
+                    </div>
+                    <div class="category-card">
+                        <i class="fas fa-paint-brush"></i>
+                        <div>Design</div>
+                    </div>
+                    <div class="category-card">
+                        <i class="fas fa-bullhorn"></i>
+                        <div>Marketing</div>
+                    </div>
+                    <div class="category-card">
+                        <i class="fas fa-utensils"></i>
+                        <div>Cooking</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        // Setup logout button
-        const logoutBtn = document.getElementById("logoutBtn");
-        logoutBtn.addEventListener("click", () => {
-          signOut(auth).then(() => {
-            window.location.href = "auth.html?logoutNow=true";
-          }).catch((error) => {
-            console.error("Logout error:", error);
-          });
-        });
-        
-        // Create project button
-        document.getElementById('createProjectBtn').addEventListener('click', () => {
-          window.location.href = 'create-project.html';
-        });
-      } else {
-        // Redirect to login if not authenticated
-        window.location.href = "auth.html";
-      }
-    });
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Active Projects -->
+            <div class="card active-projects">
+                <div class="card-header">
+                    <h2 class="section-title"><i class="fas fa-rocket"></i> Active Projects</h2>
+                    <button class="btn" id="createProjectBtn"><i class="fas fa-plus"></i> New Project</button>
+                </div>
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
 
-    // Add animations to cards
-    document.querySelectorAll('.card').forEach((card, index) => {
-      card.style.animationDelay = `${index * 0.1}s`;
-    });
-  </script>
+            <!-- Collaboration Tools -->
+            <div class="card collab-tools">
+                <h2 class="section-title"><i class="fas fa-users"></i> Collaboration Tools</h2>
+                <div class="tools-tabs">
+                    <div class="tab active">Team Chat</div>
+                    <div class="tab">Project Board</div>
+                    <div class="tab">File Sharing</div>
+                    <div class="tab">Video Calls</div>
+                </div>
+                <div class="tools-content">
+                    <div class="tools-section">
+                        <h3><i class="fas fa-comments"></i> Team Chat</h3>
+                        <ul class="tools-list">
+                            <li><i class="fas fa-check-circle"></i> Real-time messaging</li>
+                            <li><i class="fas fa-check-circle"></i> File sharing in chat</li>
+                            <li><i class="fas fa-check-circle"></i> Threaded conversations</li>
+                            <li><i class="fas fa-check-circle"></i> @mentions and notifications</li>
+                        </ul>
+                        <button class="btn" style="margin-top: 1rem;"><i class="fas fa-comment"></i> Open Chat</button>
+                    </div>
+                    <div class="tools-section">
+                        <h3><i class="fas fa-tasks"></i> Project Board</h3>
+                        <ul class="tools-list">
+                            <li><i class="fas fa-check-circle"></i> Kanban-style boards</li>
+                            <li><i class="fas fa-check-circle"></i> Task assignments</li>
+                            <li><i class="fas fa-check-circle"></i> Progress tracking</li>
+                            <li><i class="fas fa-check-circle"></i> Deadline management</li>
+                        </ul>
+                        <button class="btn" style="margin-top: 1rem;"><i class="fas fa-columns"></i> View Board</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Collaborators -->
+            <div class="card top-collaborators">
+                <h2 class="section-title"><i class="fas fa-star"></i> Top Collaborators</h2>
+                <ul class="collaborator-list" id="collaboratorList">
+                    <!-- Will be populated by JavaScript -->
+                </ul>
+            </div>
+
+            <!-- Project Showcase -->
+            <div class="card project-showcase">
+                <div class="card-header">
+                    <h2 class="section-title"><i class="fas fa-trophy"></i> Project Showcase</h2>
+                    <button class="btn"><i class="fas fa-eye"></i> View All</button>
+                </div>
+                <div class="showcase-grid" id="showcaseGrid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Badge -->
+    <div class="security-badge">
+        <i class="fas fa-shield-alt"></i>
+        <span>Secure Connection</span>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut,
+            getIdTokenResult
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import {
+            getFirestore,
+            collection,
+            query,
+            where,
+            getDocs,
+            doc,
+            getDoc,
+            limit,
+            orderBy
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
+            authDomain: "skill-link-6d699.firebaseapp.com",
+            projectId: "skill-link-6d699",
+            storageBucket: "skill-link-6d699.appspot.com",
+            messagingSenderId: "705249950767",
+            appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Security Headers (simulated - in a real app these would be server-side)
+        const setSecurityHeaders = () => {
+            // These would normally be set server-side
+            console.log("[Security] Setting security headers (simulated)");
+            // In a real app, you would set:
+            // Content-Security-Policy
+            // X-Content-Type-Options
+            // X-Frame-Options
+            // Strict-Transport-Security
+            // X-XSS-Protection
+        };
+
+        // Input sanitization
+        const sanitizeInput = (input) => {
+            if (!input) return '';
+            return input.toString()
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        };
+
+        // Rate limiting simulation
+        let lastRequestTime = 0;
+        const rateLimitCheck = () => {
+            const now = Date.now();
+            if (now - lastRequestTime < 1000) { // 1 second between requests
+                console.warn("[Security] Rate limit exceeded");
+                return false;
+            }
+            lastRequestTime = now;
+            return true;
+        };
+
+        // CSRF protection
+        const generateCSRFToken = () => {
+            return 'csrf-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        };
+        const csrfToken = generateCSRFToken();
+
+        // Session timeout
+        let sessionTimeout;
+        const resetSessionTimer = () => {
+            clearTimeout(sessionTimeout);
+            // 30 minute timeout
+            sessionTimeout = setTimeout(() => {
+                signOut(auth).then(() => {
+                    window.location.href = "auth.html?sessionExpired=true";
+                });
+            }, 30 * 60 * 1000);
+        };
+
+        // Fetch trending projects
+        const fetchTrendingProjects = async () => {
+            try {
+                // Simulated data - in a real app you would query Firestore
+                const trendingProjects = [
+                    {
+                        id: 'p1',
+                        name: 'Fusion Recipe App',
+                        rank: 1,
+                        driver: 'Emily Chen',
+                        views: 1245,
+                        likes: 342,
+                        followers: 87,
+                        skills: ['Cooking', 'UI/UX', 'Development']
+                    },
+                    {
+                        id: 'p2',
+                        name: 'Health Tracker UI',
+                        rank: 2,
+                        driver: 'Jacob Lee',
+                        views: 987,
+                        likes: 256,
+                        followers: 64,
+                        skills: ['UI/UX', 'Design', 'Research']
+                    },
+                    {
+                        id: 'p3',
+                        name: 'Smart Kitchen Redesign',
+                        rank: 3,
+                        driver: 'Sarah Wong',
+                        views: 876,
+                        likes: 198,
+                        followers: 53,
+                        skills: ['Industrial Design', 'Cooking', 'Engineering']
+                    },
+                    {
+                        id: 'p4',
+                        name: 'Community Learning Platform',
+                        rank: 4,
+                        driver: 'Alex Morgan',
+                        views: 765,
+                        likes: 176,
+                        followers: 48,
+                        skills: ['Development', 'Education', 'UI/UX']
+                    },
+                    {
+                        id: 'p5',
+                        name: 'Sustainable Packaging',
+                        rank: 5,
+                        driver: 'Marcus Johnson',
+                        views: 654,
+                        likes: 143,
+                        followers: 39,
+                        skills: ['Design', 'Sustainability', 'Marketing']
+                    }
+                ];
+
+                const marquee = document.getElementById('trendingMarquee');
+                marquee.innerHTML = '';
+
+                trendingProjects.forEach(project => {
+                    const item = document.createElement('div');
+                    item.className = 'trending-item';
+                    item.innerHTML = `
+                        <div class="trending-rank">#${project.rank}</div>
+                        <div class="trending-info">
+                            <div class="trending-name">${sanitizeInput(project.name)}</div>
+                            <div class="trending-stats">
+                                <span><i class="fas fa-user"></i> ${sanitizeInput(project.driver)}</span>
+                                <span><i class="fas fa-eye"></i> ${project.views}</span>
+                                <span><i class="fas fa-heart"></i> ${project.likes}</span>
+                                <span><i class="fas fa-users"></i> ${project.followers}</span>
+                            </div>
+                        </div>
+                    `;
+                    marquee.appendChild(item);
+                });
+
+                // Clone items for seamless looping
+                const clone = marquee.cloneNode(true);
+                marquee.parentNode.appendChild(clone);
+
+            } catch (error) {
+                console.error("Error fetching trending projects:", error);
+            }
+        };
+
+        // Fetch user projects
+        const fetchUserProjects = async (userId) => {
+            try {
+                // Simulated data - in a real app you would query Firestore
+                const projects = [
+                    {
+                        id: 'p1',
+                        name: 'Fusion Recipe App',
+                        description: 'Creating a mobile app for sharing fusion recipes with step-by-step cooking guides.',
+                        skills: ['Cooking', 'UI/UX', 'Development'],
+                        members: ['EC', 'JL', 'SW', '+5'],
+                        contributions: 86,
+                        tasks: 24,
+                        daysLeft: 12,
+                        progress: 65
+                    },
+                    {
+                        id: 'p2',
+                        name: 'Health Tracker UI',
+                        description: 'Redesigning the user interface for a health tracking application with new features.',
+                        skills: ['UI/UX', 'Design', 'Research'],
+                        members: ['JL', 'SW', '+3'],
+                        contributions: 42,
+                        tasks: 18,
+                        daysLeft: 8,
+                        progress: 45
+                    }
+                ];
+
+                const projectsGrid = document.getElementById('projectsGrid');
+                projectsGrid.innerHTML = '';
+
+                projects.forEach(project => {
+                    const projectCard = document.createElement('div');
+                    projectCard.className = 'project-card';
+                    projectCard.innerHTML = `
+                        <h3><i class="fas fa-project-diagram"></i> ${sanitizeInput(project.name)}</h3>
+                        <div class="project-tags">
+                            ${project.skills.map(skill => `<span class="project-tag">${sanitizeInput(skill)}</span>`).join('')}
+                        </div>
+                        <p class="project-desc">${sanitizeInput(project.description)}</p>
+                        <div class="project-members">
+                            ${project.members.map((member, index) => 
+                                index < 3 ? `<div class="member-avatar">${sanitizeInput(member)}</div>` : ''
+                            ).join('')}
+                            <div class="member-count">${project.members.length > 3 ? `+${project.members.length - 3} members` : ''}</div>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <div class="stat-value">${project.contributions}</div>
+                                <div class="stat-label">Contributions</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${project.tasks}</div>
+                                <div class="stat-label">Tasks</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${project.daysLeft}</div>
+                                <div class="stat-label">Days Left</div>
+                            </div>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-header">
+                                <div class="progress-title">Project Completion</div>
+                                <div class="progress-percent">${project.progress}%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${project.progress}%"></div>
+                            </div>
+                        </div>
+                    `;
+                    projectsGrid.appendChild(projectCard);
+                });
+
+            } catch (error) {
+                console.error("Error fetching user projects:", error);
+            }
+        };
+
+        // Fetch top collaborators
+        const fetchTopCollaborators = async () => {
+            try {
+                // Simulated data - in a real app you would query Firestore
+                const collaborators = [
+                    {
+                        id: 'u1',
+                        name: 'Emily Chen',
+                        tag: 'Top Collaborator',
+                        rank: 1
+                    },
+                    {
+                        id: 'u2',
+                        name: 'Jacob Lee',
+                        tag: 'Skill Leader',
+                        rank: 2
+                    },
+                    {
+                        id: 'u3',
+                        name: 'Sarah Wong',
+                        tag: 'Creative Mind',
+                        rank: 3
+                    },
+                    {
+                        id: 'u4',
+                        name: 'Alex Morgan',
+                        tag: 'Development Expert',
+                        rank: 4
+                    },
+                    {
+                        id: 'u5',
+                        name: 'Marcus Johnson',
+                        tag: 'Marketing Guru',
+                        rank: 5
+                    }
+                ];
+
+                const collaboratorList = document.getElementById('collaboratorList');
+                collaboratorList.innerHTML = '';
+
+                collaborators.forEach(collab => {
+                    const item = document.createElement('li');
+                    item.className = 'collaborator-item';
+                    item.innerHTML = `
+                        <div class="rank ${'rank-' + collab.rank}">${collab.rank}</div>
+                        <div class="collab-info">
+                            <div class="collab-name">${sanitizeInput(collab.name)}</div>
+                            <span class="collab-tag">${sanitizeInput(collab.tag)}</span>
+                        </div>
+                    `;
+                    collaboratorList.appendChild(item);
+                });
+
+            } catch (error) {
+                console.error("Error fetching top collaborators:", error);
+            }
+        };
+
+        // Fetch showcase projects
+        const fetchShowcaseProjects = async () => {
+            try {
+                // Simulated data - in a real app you would query Firestore
+                const showcaseProjects = [
+                    {
+                        id: 'p1',
+                        name: 'Smart Kitchen Redesign',
+                        skills: 'UI/UX, Industrial Design, Cooking',
+                        badge: 'Project of the Week',
+                        image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'
+                    },
+                    {
+                        id: 'p2',
+                        name: 'Health Tracker App',
+                        skills: 'UI/UX, Development, Research',
+                        badge: 'Editors Pick',
+                        image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'
+                    }
+                ];
+
+                const showcaseGrid = document.getElementById('showcaseGrid');
+                showcaseGrid.innerHTML = '';
+
+                showcaseProjects.forEach(project => {
+                    const card = document.createElement('div');
+                    card.className = 'showcase-card';
+                    card.innerHTML = `
+                        <div class="showcase-badge">${sanitizeInput(project.badge)}</div>
+                        <img src="${project.image}" alt="${sanitizeInput(project.name)}">
+                        <div class="showcase-overlay">
+                            <h3>${sanitizeInput(project.name)}</h3>
+                            <p>${sanitizeInput(project.skills)}</p>
+                        </div>
+                    `;
+                    showcaseGrid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Error fetching showcase projects:", error);
+            }
+        };
+
+        // Fetch user badges
+        const fetchUserBadges = async (userId) => {
+            try {
+                // Simulated data - in a real app you would query Firestore
+                const badges = [
+                    { id: 'b1', title: 'Innovator', icon: 'lightbulb' },
+                    { id: 'b2', title: 'Team Player', icon: 'users' },
+                    { id: 'b3', title: 'Top Designer', icon: 'star' }
+                ];
+
+                const badgesGrid = document.getElementById('badgesGrid');
+                badgesGrid.innerHTML = '';
+
+                badges.forEach(badge => {
+                    const badgeElement = document.createElement('div');
+                    badgeElement.className = 'badge';
+                    badgeElement.innerHTML = `
+                        <i class="fas fa-${badge.icon}"></i>
+                        <div class="badge-title">${sanitizeInput(badge.title)}</div>
+                    `;
+                    badgesGrid.appendChild(badgeElement);
+                });
+
+            } catch (error) {
+                console.error("Error fetching user badges:", error);
+            }
+        };
+
+        // Initialize the app
+        const initApp = () => {
+            setSecurityHeaders();
+            
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    // Reset session timer on any user activity
+                    resetSessionTimer();
+                    document.addEventListener('click', resetSessionTimer);
+                    document.addEventListener('keypress', resetSessionTimer);
+                    document.addEventListener('scroll', resetSessionTimer);
+
+                    // Update user info
+                    document.getElementById('userEmail').textContent = sanitizeInput(user.email);
+                    
+                    // Create initials for avatar
+                    const nameParts = user.email.split('@')[0].split('.');
+                    let initials = '';
+                    if (nameParts.length > 1) {
+                        initials = nameParts[0][0] + nameParts[1][0];
+                    } else if (nameParts[0].length >= 2) {
+                        initials = nameParts[0].substring(0, 2);
+                    } else {
+                        initials = user.email.substring(0, 2);
+                    }
+                    
+                    document.getElementById('userAvatar').textContent = initials.toUpperCase();
+                    document.getElementById('profileAvatar').textContent = initials.toUpperCase();
+                    
+                    // Update welcome message with user name
+                    const userName = user.displayName || user.email.split('@')[0];
+                    document.getElementById('welcomeMessage').innerHTML = `<i class="fas fa-star"></i> Welcome Back, ${sanitizeInput(userName)}!`;
+                    document.getElementById('profileName').textContent = sanitizeInput(userName);
+                    document.getElementById('profileTag').textContent = 'Creative Mind';
+                    document.getElementById('profileBio').textContent = 'Passionate about creating innovative solutions through collaboration';
+
+                    // Check for admin privileges
+                    const tokenResult = await getIdTokenResult(user);
+                    if (tokenResult.claims.admin) {
+                        console.log("User has admin privileges");
+                    }
+
+                    // Setup logout button
+                    const logoutBtn = document.getElementById("logoutBtn");
+                    logoutBtn.addEventListener("click", () => {
+                        if (!rateLimitCheck()) return;
+                        
+                        signOut(auth).then(() => {
+                            window.location.href = "auth.html?logoutNow=true";
+                        }).catch((error) => {
+                            console.error("Logout error:", error);
+                        });
+                    });
+                    
+                    // Create project button
+                    document.getElementById('createProjectBtn').addEventListener('click', () => {
+                        if (!rateLimitCheck()) return;
+                        window.location.href = 'create-project.html?csrf=' + csrfToken;
+                    });
+
+                    // Fetch data
+                    fetchTrendingProjects();
+                    fetchUserProjects(user.uid);
+                    fetchTopCollaborators();
+                    fetchShowcaseProjects();
+                    fetchUserBadges(user.uid);
+
+                    // Add animations to cards
+                    document.querySelectorAll('.card').forEach((card, index) => {
+                        card.style.animationDelay = `${index * 0.1}s`;
+                    });
+
+                } else{ //Redirect to login if not authenticated
+                    window.location.href = "auth.html";
+
+                }
+                    
+                
+            });
+        };
+
+        // Start the app
+        window.addEventListener('load', initApp);
+    </script>
 </body>
 </html>
