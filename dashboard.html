@@ -1157,7 +1157,7 @@
         <span>Secure Connection</span>
     </div>
 
-    <script>
+    <script type="module">
         // Initialize the app
         document.addEventListener('DOMContentLoaded', () => {
             // Set user info
@@ -1503,6 +1503,73 @@
                 badgesGrid.appendChild(badgeElement);
             });
         };
+        
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
+      authDomain: "skill-link-6d699.firebaseapp.com",
+      projectId: "skill-link-6d699",
+      storageBucket: "skill-link-6d699.appspot.com",
+      messagingSenderId: "705249950767",
+      appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Update user email
+        document.getElementById("userEmail").textContent = user.email;
+        
+        // Create initials for avatar
+        const nameParts = user.email.split('@')[0].split('.');
+        let initials = '';
+        if (nameParts.length > 1) {
+          initials = nameParts[0][0] + nameParts[1][0];
+        } else if (nameParts[0].length >= 2) {
+          initials = nameParts[0].substring(0, 2);
+        } else {
+          initials = user.email.substring(0, 2);
+        }
+        
+        document.querySelector('.user-avatar').textContent = initials.toUpperCase();
+        
+        // Update welcome message with user name
+        const userName = user.displayName || user.email.split('@')[0];
+        document.querySelector('.header h1').innerHTML = `<i class="fas fa-star"></i> Welcome Back, ${userName}!`;
+
+        // Setup logout button
+        const logoutBtn = document.getElementById("logoutBtn");
+        logoutBtn.addEventListener("click", () => {
+          signOut(auth).then(() => {
+            window.location.href = "auth.html?logoutNow=true";
+          }).catch((error) => {
+            console.error("Logout error:", error);
+          });
+        });
+        
+        // Create project button
+        document.getElementById('createProjectBtn').addEventListener('click', () => {
+          window.location.href = 'create-project.html';
+        });
+      } else {
+        // Redirect to login if not authenticated
+        window.location.href = "auth.html";
+      }
+    });
+
+    // Add animations to cards
+    document.querySelectorAll('.card').forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.1}s`;
+    });
+  
     </script>
 </body>
 </html>
