@@ -183,9 +183,19 @@
             margin-bottom: 1rem;
         }
 
+        .trending-container {
+            position: relative;
+            overflow: hidden;
+            height: 100px;
+        }
+
         .trending-marquee {
             display: flex;
             gap: 2rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
             animation: scroll 30s linear infinite;
             white-space: nowrap;
         }
@@ -198,6 +208,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             flex-shrink: 0;
+            height: 100%;
         }
 
         .trending-rank {
@@ -949,8 +960,10 @@
             <i class="fas fa-fire"></i>
             <h3>Trending Projects This Week</h3>
         </div>
-        <div class="trending-marquee" id="trendingMarquee">
-            <!-- Will be populated by JavaScript -->
+        <div class="trending-container">
+            <div class="trending-marquee" id="trendingMarquee">
+                <!-- Will be populated by JavaScript -->
+            </div>
         </div>
     </div>
 
@@ -1086,51 +1099,45 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import {
-            getAuth,
-            onAuthStateChanged,
-            signOut,
-            getIdTokenResult
-        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import {
-            getFirestore,
-            collection,
-            query,
-            where,
-            getDocs,
-            doc,
-            getDoc,
-            limit,
-            orderBy
-        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyC2mlKycD1ORh0dQcqE-b1GcxOJUWsAnS4",
-            authDomain: "skill-link-6d699.firebaseapp.com",
-            projectId: "skill-link-6d699",
-            storageBucket: "skill-link-6d699.appspot.com",
-            messagingSenderId: "705249950767",
-            appId: "1:705249950767:web:d2959fb74d5d061a00e3aa"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Security Headers (simulated - in a real app these would be server-side)
-        const setSecurityHeaders = () => {
-            // These would normally be set server-side
-            console.log("[Security] Setting security headers (simulated)");
-            // In a real app, you would set:
-            // Content-Security-Policy
-            // X-Content-Type-Options
-            // X-Frame-Options
-            // Strict-Transport-Security
-            // X-XSS-Protection
-        };
+        // Simulated Firebase functionality for demonstration
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize the app
+            initApp();
+            
+            // Simulated user data
+            const userData = {
+                email: "alex@skilllink.com",
+                displayName: "Alex Johnson",
+                uid: "user123"
+            };
+            
+            // Set user info
+            document.getElementById('userEmail').textContent = userData.email;
+            document.getElementById('userAvatar').textContent = "AJ";
+            document.getElementById('profileAvatar').textContent = "AJ";
+            document.getElementById('profileName').textContent = userData.displayName;
+            document.getElementById('profileTag').textContent = 'Creative Mind';
+            document.getElementById('profileBio').textContent = 'Passionate about creating innovative solutions through collaboration';
+            document.getElementById('welcomeMessage').innerHTML = `<i class="fas fa-star"></i> Welcome Back, ${userData.displayName}!`;
+            
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                alert('Logging out...');
+                window.location.href = "auth.html";
+            });
+            
+            // Create project button
+            document.getElementById('createProjectBtn').addEventListener('click', () => {
+                alert('Creating new project...');
+            });
+            
+            // Fetch data
+            fetchTrendingProjects();
+            fetchUserProjects(userData.uid);
+            fetchTopCollaborators();
+            fetchShowcaseProjects();
+            fetchUserBadges(userData.uid);
+        });
 
         // Input sanitization
         const sanitizeInput = (input) => {
@@ -1142,40 +1149,10 @@
                 .replace(/'/g, '&#39;');
         };
 
-        // Rate limiting simulation
-        let lastRequestTime = 0;
-        const rateLimitCheck = () => {
-            const now = Date.now();
-            if (now - lastRequestTime < 1000) { // 1 second between requests
-                console.warn("[Security] Rate limit exceeded");
-                return false;
-            }
-            lastRequestTime = now;
-            return true;
-        };
-
-        // CSRF protection
-        const generateCSRFToken = () => {
-            return 'csrf-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-        };
-        const csrfToken = generateCSRFToken();
-
-        // Session timeout
-        let sessionTimeout;
-        const resetSessionTimer = () => {
-            clearTimeout(sessionTimeout);
-            // 30 minute timeout
-            sessionTimeout = setTimeout(() => {
-                signOut(auth).then(() => {
-                    window.location.href = "auth.html?sessionExpired=true";
-                });
-            }, 30 * 60 * 1000);
-        };
-
         // Fetch trending projects
         const fetchTrendingProjects = async () => {
             try {
-                // Simulated data - in a real app you would query Firestore
+                // Simulated data
                 const trendingProjects = [
                     {
                         id: 'p1',
@@ -1232,7 +1209,8 @@
                 const marquee = document.getElementById('trendingMarquee');
                 marquee.innerHTML = '';
 
-                trendingProjects.forEach(project => {
+                // Create original items
+                const items = trendingProjects.map(project => {
                     const item = document.createElement('div');
                     item.className = 'trending-item';
                     item.innerHTML = `
@@ -1247,12 +1225,15 @@
                             </div>
                         </div>
                     `;
-                    marquee.appendChild(item);
+                    return item;
                 });
 
+                // Append original items
+                items.forEach(item => marquee.appendChild(item));
+
                 // Clone items for seamless looping
-                const clone = marquee.cloneNode(true);
-                marquee.parentNode.appendChild(clone);
+                const clonedItems = items.map(item => item.cloneNode(true));
+                clonedItems.forEach(item => marquee.appendChild(item));
 
             } catch (error) {
                 console.error("Error fetching trending projects:", error);
@@ -1262,7 +1243,7 @@
         // Fetch user projects
         const fetchUserProjects = async (userId) => {
             try {
-                // Simulated data - in a real app you would query Firestore
+                // Simulated data
                 const projects = [
                     {
                         id: 'p1',
@@ -1333,6 +1314,13 @@
                     projectsGrid.appendChild(projectCard);
                 });
 
+                // Initialize progress animations
+                setTimeout(() => {
+                    document.querySelectorAll('.progress-fill').forEach(progress => {
+                        progress.style.width = progress.style.width;
+                    });
+                }, 100);
+
             } catch (error) {
                 console.error("Error fetching user projects:", error);
             }
@@ -1341,7 +1329,7 @@
         // Fetch top collaborators
         const fetchTopCollaborators = async () => {
             try {
-                // Simulated data - in a real app you would query Firestore
+                // Simulated data
                 const collaborators = [
                     {
                         id: 'u1',
@@ -1399,7 +1387,7 @@
         // Fetch showcase projects
         const fetchShowcaseProjects = async () => {
             try {
-                // Simulated data - in a real app you would query Firestore
+                // Simulated data
                 const showcaseProjects = [
                     {
                         id: 'p1',
@@ -1442,7 +1430,7 @@
         // Fetch user badges
         const fetchUserBadges = async (userId) => {
             try {
-                // Simulated data - in a real app you would query Firestore
+                // Simulated data
                 const badges = [
                     { id: 'b1', title: 'Innovator', icon: 'lightbulb' },
                     { id: 'b2', title: 'Team Player', icon: 'users' },
@@ -1469,87 +1457,11 @@
 
         // Initialize the app
         const initApp = () => {
-            setSecurityHeaders();
-            
-            onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    // Reset session timer on any user activity
-                    resetSessionTimer();
-                    document.addEventListener('click', resetSessionTimer);
-                    document.addEventListener('keypress', resetSessionTimer);
-                    document.addEventListener('scroll', resetSessionTimer);
-
-                    // Update user info
-                    document.getElementById('userEmail').textContent = sanitizeInput(user.email);
-                    
-                    // Create initials for avatar
-                    const nameParts = user.email.split('@')[0].split('.');
-                    let initials = '';
-                    if (nameParts.length > 1) {
-                        initials = nameParts[0][0] + nameParts[1][0];
-                    } else if (nameParts[0].length >= 2) {
-                        initials = nameParts[0].substring(0, 2);
-                    } else {
-                        initials = user.email.substring(0, 2);
-                    }
-                    
-                    document.getElementById('userAvatar').textContent = initials.toUpperCase();
-                    document.getElementById('profileAvatar').textContent = initials.toUpperCase();
-                    
-                    // Update welcome message with user name
-                    const userName = user.displayName || user.email.split('@')[0];
-                    document.getElementById('welcomeMessage').innerHTML = `<i class="fas fa-star"></i> Welcome Back, ${sanitizeInput(userName)}!`;
-                    document.getElementById('profileName').textContent = sanitizeInput(userName);
-                    document.getElementById('profileTag').textContent = 'Creative Mind';
-                    document.getElementById('profileBio').textContent = 'Passionate about creating innovative solutions through collaboration';
-
-                    // Check for admin privileges
-                    const tokenResult = await getIdTokenResult(user);
-                    if (tokenResult.claims.admin) {
-                        console.log("User has admin privileges");
-                    }
-
-                    // Setup logout button
-                    const logoutBtn = document.getElementById("logoutBtn");
-                    logoutBtn.addEventListener("click", () => {
-                        if (!rateLimitCheck()) return;
-                        
-                        signOut(auth).then(() => {
-                            window.location.href = "auth.html?logoutNow=true";
-                        }).catch((error) => {
-                            console.error("Logout error:", error);
-                        });
-                    });
-                    
-                    // Create project button
-                    document.getElementById('createProjectBtn').addEventListener('click', () => {
-                        if (!rateLimitCheck()) return;
-                        window.location.href = 'create-project.html?csrf=' + csrfToken;
-                    });
-
-                    // Fetch data
-                    fetchTrendingProjects();
-                    fetchUserProjects(user.uid);
-                    fetchTopCollaborators();
-                    fetchShowcaseProjects();
-                    fetchUserBadges(user.uid);
-
-                    // Add animations to cards
-                    document.querySelectorAll('.card').forEach((card, index) => {
-                        card.style.animationDelay = `${index * 0.1}s`;
-                    });
-
-                } else{ //Redirect to login if not authenticated
-                    window.location.href = "auth.html";
-
-                }
-                    
-                
+            // Add animations to cards
+            document.querySelectorAll('.card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
             });
         };
-
-        // Start the app
-        window.addEventListener('load', initApp);
     </script>
 </body>
 </html>
