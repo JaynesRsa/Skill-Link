@@ -21,7 +21,8 @@
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
         }
 
@@ -173,7 +174,7 @@
             transition: all 0.3s ease;
         }
 
-        .social-icons a:hover {
+        -icons a:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
@@ -436,6 +437,47 @@
             .container.active .sign-in {
                 opacity: 0;
             }
+        /* MOBILE FIX */
+@media (max-width: 768px) {
+
+body {
+  display: block;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+  min-height: auto;
+  margin: 20px auto;
+}
+
+.form-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.sign-in,
+.sign-up {
+  left: 0;
+  width: 100%;
+}
+
+.toggle-container {
+  display: none;
+}
+
+.container form {
+  padding: 30px 20px;
+}
+
+.container h1 {
+  font-size: 1.5rem;
+}
+
+}
         }
     </style>
 </head>
